@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     cwater_reading.cpp \
     input_file.cpp \
-    drag_drop.cpp
+    drag_drop.cpp \
+    manage_wr.cpp
 
 HEADERS  += mainwindow.h \
     cwater_reading.h \
     input_file.h \
-    drag_drop.h
+    drag_drop.h \
+    manage_wr.h
 
 FORMS    += \
     drag_drop.ui \
