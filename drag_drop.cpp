@@ -4,6 +4,7 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QString>
+#include<qdebug.h>
 
 
 drag_drop::drag_drop(QWidget *parent) :
@@ -20,10 +21,7 @@ void drag_drop::dragEnterEvent(QDragEnterEvent* event){
     QList <QUrl> urls;
     QList<QUrl>::iterator i;
     QString path = event ->mimeData()->urls().at(0).toString();
-
-
     event->accept();
-
 }
 
 void drag_drop::dragLeaveEvent(QDragLeaveEvent* event){
