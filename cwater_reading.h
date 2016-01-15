@@ -3,7 +3,16 @@
 
 #include <string>
 #include <time.h>
-
+#include <QString>
+#include <map>
+#include <vector>
+#include "cwater_reading.h"
+/*
+struct reading {
+    std::map<std::string, std::vector<cwater_reading*>> &map;
+    QString path;
+};
+*/
 class cwater_reading
 {
     //prototype of readings for ID

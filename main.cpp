@@ -7,10 +7,9 @@
 int main(int argc, char *argv[])
 {
     std::map <std::string,std::vector<cwater_reading*>> database;    //map within id linked to own vector of water readings
-    input_file::read_file(database);
     QApplication a(argc, argv);
-    drag_drop w;
-    w.show();
+    drag_drop* w = new drag_drop(NULL,database);
+    w->show();
 
     return a.exec();
 }

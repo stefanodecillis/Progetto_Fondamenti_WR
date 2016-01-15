@@ -1,13 +1,14 @@
 #include "input_file.h"
+#include <Qstring>
 
 input_file::input_file()
 {
 
 }
 
-bool input_file::read_file(std::map<std::string,std::vector<cwater_reading*>> &reading_map) {
+bool input_file::read_file(std::map<std::string,std::vector<cwater_reading*>> &reading_map,std::string path) {
     //open file input
-    std::ifstream input("/Users/Steve/Documents/SourceCodes/Elab_Fond/Progetto/Progetto/consumption_some.csv");
+    std::ifstream input(path);
 
     if(!input.is_open()) {           //
         std::cout << "ERRORE" << std::endl;    // file not found
