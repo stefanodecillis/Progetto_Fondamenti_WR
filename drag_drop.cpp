@@ -2,6 +2,9 @@
 #include "ui_drag_drop.h"
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <QUrl>
+#include <QString>
+
 
 drag_drop::drag_drop(QWidget *parent) :
     QWidget(parent),
@@ -13,6 +16,12 @@ drag_drop::drag_drop(QWidget *parent) :
 }
 
 void drag_drop::dragEnterEvent(QDragEnterEvent* event){
+    QString nome;
+    QList <QUrl> urls;
+    QList<QUrl>::iterator i;
+    QString path = event ->mimeData()->urls().at(0).toString();
+
+
     event->accept();
 
 }
@@ -26,8 +35,7 @@ void drag_drop::dragMoveEvent(QDragMoveEvent* event){
 }
 
 void drag_drop::dropEvent(QDropEvent* event){
-    QList <QUrl> path= event->mimeData()->urls();
-
+    event->accept();
 
 }
 

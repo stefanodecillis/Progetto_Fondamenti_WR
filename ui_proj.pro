@@ -17,17 +17,20 @@ SOURCES += main.cpp\
     cwater_reading.cpp \
     input_file.cpp \
     drag_drop.cpp \
-    manage_wr.cpp
+    manage_wr.cpp \
+    progress_bar.cpp
 
 HEADERS  += mainwindow.h \
     cwater_reading.h \
     input_file.h \
     drag_drop.h \
-    manage_wr.h
+    manage_wr.h \
+    progress_bar.h
 
 FORMS    += \
     drag_drop.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    progress_bar.ui
 
 RESOURCES += \
     imgfile.qrc
