@@ -23,8 +23,9 @@ HEADERS  += mainwindow.h \
     input_file.h \
     drag_drop.h
 
-FORMS    += mainwindow.ui \
-    drag_drop.ui
+FORMS    += \
+    drag_drop.ui \
+    mainwindow.ui
 
 RESOURCES += \
     imgfile.qrc
