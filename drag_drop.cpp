@@ -38,7 +38,7 @@ void drag_drop::dragMoveEvent(QDragMoveEvent* event){
     event->accept();
 }
 
-void drag_drop::dropEvent(QDropEvent* event,std::map<std::string, std::vector<cwater_reading *> > &map){
+void drag_drop::dropEvent(QDropEvent* event){
     QList <QUrl> urls;
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
