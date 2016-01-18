@@ -12,7 +12,7 @@ class drag_drop : public QWidget
     Q_OBJECT
 
 public:
-    explicit drag_drop(QWidget *parent = 0, std::map<std::string, std::vector<cwater_reading*>> &map);
+    explicit drag_drop(QWidget *parent = 0);
     ~drag_drop();
     void dragEnterEvent(QDragEnterEvent* event);
     void dragLeaveEvent(QDragLeaveEvent* event);
@@ -21,7 +21,6 @@ public:
 
 private:
     Ui::drag_drop *ui;
-    std::map<std::string, std::vector<cwater_reading *> > &mapclass;
 };
 
 #endif // DRAG_DROP_H

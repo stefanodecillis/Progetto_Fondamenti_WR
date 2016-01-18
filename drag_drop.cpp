@@ -14,7 +14,7 @@
 #include <map>
 
 
-drag_drop::drag_drop(QWidget *parent, std::map<std::string, std::vector<cwater_reading *> > &map) :
+drag_drop::drag_drop(QWidget *parent):
     QWidget(parent),
     ui(new Ui::drag_drop)
 {
@@ -43,9 +43,6 @@ void drag_drop::dropEvent(QDropEvent* event){
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
     event->accept();
-    input_file::read_file(map,path_str);
-    progress_bar* dash = new progress_bar();
-    dash->show();
 }
 
 drag_drop::~drag_drop()
