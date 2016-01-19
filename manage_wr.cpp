@@ -17,3 +17,8 @@ void giveMe_consumVect(cwater_reading* first,cwater_reading* last,std::vector<cw
        ++first;
     }                       // i'm not deleting this instance cause it will be used throughout this program
 }
+
+void manage_wr::readthatfile(std::string path, std::map <std::string,std::vector<cwater_reading*>> &mappa)
+{
+
+}

@@ -18,14 +18,18 @@ SOURCES += main.cpp\
     input_file.cpp \
     drag_drop.cpp \
     manage_wr.cpp \
-    progress_bar.cpp
+    progress_bar.cpp \
+    connect_map_path.cpp \
+    qmymap.cpp
 
 HEADERS  += mainwindow.h \
     cwater_reading.h \
     input_file.h \
     drag_drop.h \
     manage_wr.h \
-    progress_bar.h
+    progress_bar.h \
+    connect_map_path.h \
+    qmymap.h
 
 FORMS    += \
     drag_drop.ui \

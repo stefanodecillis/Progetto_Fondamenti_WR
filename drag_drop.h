@@ -19,8 +19,15 @@ public:
     void dragMoveEvent(QDragMoveEvent* event);
     void dropEvent(QDropEvent* event);
 
+
 private:
     Ui::drag_drop *ui;
+signals:
+    void sendstring(const std::string);
+public slots:
+    void set_path(std::__1::string path);
+
+
 };
 
 #endif // DRAG_DROP_H

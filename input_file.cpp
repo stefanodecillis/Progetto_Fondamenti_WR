@@ -29,7 +29,7 @@ bool input_file::read_file(std::map<std::string,std::vector<cwater_reading*>> &r
     return true;
 }
 
-bool input_file::fill_in(const std::string &line,std::map<std::string,std::vector<cwater_reading*>> &reading_map){
+bool input_file::fill_in(const std::string &line, std::map<std::__1::string, std::vector<cwater_reading *> > &reading_map){
     bool timeFound = false;
     std::string time,id,temp,consumo;                       //creo variabili che mi serviranno come appoggio
     for (size_t i = 0; i < line.size();++i){     //scorro la stringa

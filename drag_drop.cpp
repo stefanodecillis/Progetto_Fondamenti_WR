@@ -12,6 +12,7 @@
 #include "input_file.h"
 #include <string>
 #include <map>
+#include "qmymap.h"
 
 
 drag_drop::drag_drop(QWidget *parent):
@@ -23,7 +24,7 @@ drag_drop::drag_drop(QWidget *parent):
     setAutoFillBackground(true);
     setMaximumSize(200,200);
     setMinimumSize(200,200);
-    //reading readhere(map,NULL);
+
 }
 
 void drag_drop::dragEnterEvent(QDragEnterEvent* event){
@@ -43,7 +44,10 @@ void drag_drop::dropEvent(QDropEvent* event){
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
     event->accept();
+    emit sendstring(path_str);
+    //fare connect
 }
+
 
 drag_drop::~drag_drop()
 {
