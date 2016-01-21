@@ -5,14 +5,12 @@
 #include <QUrl>
 #include <QString>
 #include <qdebug.h>
-#include "progress_bar.h"
 #include "drag_drop.h"
-#include "cwater_reading.h"
+#include "water_reading.h"
 #include <QProgressDialog>
 #include "input_file.h"
 #include <string>
 #include <map>
-#include "qmymap.h"
 
 
 drag_drop::drag_drop(QWidget *parent):
@@ -44,8 +42,6 @@ void drag_drop::dropEvent(QDropEvent* event){
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
     event->accept();
-    emit sendstring(path_str);
-    //fare connect
 }
 
 

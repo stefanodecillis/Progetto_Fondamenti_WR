@@ -1,6 +1,6 @@
 #ifndef DRAG_DROP_H
 #define DRAG_DROP_H
-#include "cwater_reading.h"
+#include "water_reading.h"
 #include <QWidget>
 
 namespace Ui {
@@ -24,10 +24,6 @@ private:
     Ui::drag_drop *ui;
 signals:
     void sendstring(const std::string);
-public slots:
-    void set_path(std::__1::string path);
-
-
 };
 
 #endif // DRAG_DROP_H

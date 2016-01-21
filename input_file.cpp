@@ -6,7 +6,7 @@ input_file::input_file()
 
 }
 
-bool input_file::read_file(std::map<std::string,std::vector<cwater_reading*>> &reading_map,std::string path) {
+bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &reading_map,std::string path) {
     //open file input
     std::ifstream input(path);
 
@@ -29,7 +29,7 @@ bool input_file::read_file(std::map<std::string,std::vector<cwater_reading*>> &r
     return true;
 }
 
-bool input_file::fill_in(const std::string &line, std::map<std::__1::string, std::vector<cwater_reading *> > &reading_map){
+bool input_file::fill_in(const std::string &line, std::map<std::__1::string, std::vector<water_reading *> > &reading_map){
     bool timeFound = false;
     std::string time,id,temp,consumo;                       //creo variabili che mi serviranno come appoggio
     for (size_t i = 0; i < line.size();++i){     //scorro la stringa
@@ -53,7 +53,7 @@ bool input_file::fill_in(const std::string &line, std::map<std::__1::string, std
         }
     }
     id = temp;    //set id
-    cwater_reading* reading = new cwater_reading(time,consumo);   //new cwater_reading         //REMEMBER STRING DATE IS WITHIN  ""YYYY-MM....."\"
+    water_reading* reading = new water_reading(time,consumo);   //new water_reading         //REMEMBER STRING DATE IS WITHIN  ""YYYY-MM....."\"
      reading_map[id].push_back(reading); //push back water reading in readings vector
 
     // i'm not deleting this instance cause it will be used throughout this program

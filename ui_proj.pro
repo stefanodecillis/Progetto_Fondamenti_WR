@@ -14,27 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    cwater_reading.cpp \
     input_file.cpp \
     drag_drop.cpp \
-    manage_wr.cpp \
-    progress_bar.cpp \
-    connect_map_path.cpp \
-    qmymap.cpp
+    water_reading.cpp
 
 HEADERS  += mainwindow.h \
-    cwater_reading.h \
     input_file.h \
     drag_drop.h \
-    manage_wr.h \
-    progress_bar.h \
-    connect_map_path.h \
-    qmymap.h
+    water_reading.h
 
 FORMS    += \
     drag_drop.ui \
-    mainwindow.ui \
-    progress_bar.ui
+    mainwindow.ui
 
 RESOURCES += \
     imgfile.qrc
