@@ -11,6 +11,7 @@
 #include "input_file.h"
 #include <string>
 #include <map>
+#include<qmessagebox.h>
 
 
 drag_drop::drag_drop(QWidget *parent):
@@ -41,6 +42,7 @@ void drag_drop::dropEvent(QDropEvent* event){
     QList <QUrl> urls;
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
+    emit sendstring(path);//passa il parametro alla funzione del sender, ed avvia il segnale
     event->accept();
 }
 

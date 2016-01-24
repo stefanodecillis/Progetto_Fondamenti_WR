@@ -1,8 +1,15 @@
 #include "input_file.h"
 #include <Qstring>
+#include<qmessagebox.h>
 
-input_file::input_file()
+
+
+
+
+input_file::input_file(QObject *parent):
+QObject(parent)
 {
+
 
 }
 
@@ -29,7 +36,7 @@ bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &re
     return true;
 }
 
-bool input_file::fill_in(const std::string &line, std::map<std::__1::string, std::vector<water_reading *> > &reading_map){
+bool input_file::fill_in(const std::string &line, std::map<std::string, std::vector<water_reading *> > &reading_map){
     bool timeFound = false;
     std::string time,id,temp,consumo;                       //creo variabili che mi serviranno come appoggio
     for (size_t i = 0; i < line.size();++i){     //scorro la stringa
@@ -60,3 +67,11 @@ bool input_file::fill_in(const std::string &line, std::map<std::__1::string, std
 
     return true;
 }
+
+void input_file::setValue(QString str){ //stampa quello passato dal sender, qui esplicito un nome della variabile
+    QMessageBox msgBox;
+    msgBox.setText(str);
+    msgBox.exec();
+
+}
+
