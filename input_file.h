@@ -26,6 +26,7 @@ public:
 
 public slots://metodo che riceve la stringa, specificare nella firma solo il tipo
     void setValue(QString);
+    //
 
 };
 
