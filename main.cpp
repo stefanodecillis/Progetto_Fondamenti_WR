@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     std::map <std::string,std::vector<water_reading*>> Wreading;    //map within id linked to own vector of water readings
     QApplication a(argc, argv);
 
-
+//
     //instanzio i due oggetti per la connect
     input_file* t= new input_file();
     drag_drop* w = new drag_drop();
