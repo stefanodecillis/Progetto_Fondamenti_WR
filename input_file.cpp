@@ -4,15 +4,6 @@
 
 
 
-
-
-input_file::input_file(QObject *parent):
-QObject(parent)
-{
-
-
-}
-
 bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &reading_map,std::string path) {
     //open file input
     std::ifstream input(path);
