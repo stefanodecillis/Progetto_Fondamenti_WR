@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     drag_drop* w = new drag_drop();
     w->show();
     QObject::connect(w,SIGNAL(sendstring(QString)),t,SLOT(setValue(QString)));
+    //
 
 
     return a.exec();
