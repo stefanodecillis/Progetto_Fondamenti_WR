@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
 
 //
     //instanzio i due oggetti per la connect
-    input_file* t= new input_file();
+    input_file* t= new input_file(Wreading);
     drag_drop* w = new drag_drop();
     w->show();
-    QObject::connect(w,SIGNAL(sendstring(QString)),t,SLOT(setValue(QString)));
+    //QObject::connect(w,SIGNAL(sendstring(QString)),t,SLOT(setValue(QString)));
     //
 
 
