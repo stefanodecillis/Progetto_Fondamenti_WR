@@ -1,20 +1,30 @@
 #ifndef WATER_READING_H
 #define WATER_READING_H
 
-#include <string>
 #include <time.h>
+#include <string>
 
 class water_reading
 {
-public:
-    water_reading(std::string newdate, std::string newconsumption);
-    bool get_valid() {return valid;}
-    double get_consumption() {return consumption;}
-    tm get_date()  {return date;}
 private:
-    tm date;
-    double consumption;
-    bool valid;
+    tm data;
+    float consumption;
+public:
+    water_reading(std::string time,std::string consum);
+    water_reading (float consumption,tm data);
+    tm get_data();
+    float get_consumption();
+    bool compare(water_reading a, int depth);
+    bool operator <(water_reading b) {
+        return compare(b,0);
+    }
+    bool operator >(water_reading b)
+    {
+        return !(compare(b,0));
+    }
+
+    std::string printDate();
 };
+
 
 #endif // WATER_READING_H

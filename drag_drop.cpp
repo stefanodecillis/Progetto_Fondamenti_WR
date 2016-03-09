@@ -4,14 +4,12 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QString>
-#include <qdebug.h>
-#include "drag_drop.h"
 #include "water_reading.h"
 #include <QProgressDialog>
 #include "input_file.h"
 #include <string>
-#include <map>
-#include<qmessagebox.h>
+#include<menu.h>
+//#include<struttura_dati.h>
 
 
 drag_drop::drag_drop(QWidget *parent):
@@ -23,7 +21,6 @@ drag_drop::drag_drop(QWidget *parent):
     setAutoFillBackground(true);
     setMaximumSize(200,200);
     setMinimumSize(200,200);
-
 }
 
 void drag_drop::dragEnterEvent(QDragEnterEvent* event){
@@ -42,7 +39,12 @@ void drag_drop::dropEvent(QDropEvent* event){
     QList <QUrl> urls;
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
-    emit sendstring(path);//passa il parametro alla funzione del sender, ed avvia il segnale
+
+QString subString=path.mid(8,path.size()-8);//lavoro la stinga perchè dopo sia valida per la lettura da file
+    emit sendstring(subString);//passa il parametro alla funzione del sender, ed avvia il segnale alla classe menu
+    Menu *p=new Menu;//instanzio visualizzo e chiudo il form corrente
+    p->show();
+    this->close();
     event->accept();
 }
 

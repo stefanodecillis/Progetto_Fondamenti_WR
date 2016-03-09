@@ -1,18 +1,26 @@
 #include "input_file.h"
 #include <Qstring>
 #include<qmessagebox.h>
+#include <math.h>
+#include <time.h>
+#include<fstream>
+#include<qdebug.h>
+#include<QDateTime>
+#include<QDate>
+#include<QTime>
 
-input_file::input_file (std::map <std::string,std::vector<water_reading*>> &map)
-{
 
-}
 
 bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &reading_map,std::string path) {
     //open file input
     std::ifstream input(path);
-
+clock_t start, end;
+start = clock();
     if(!input.is_open()) {           //
-        std::cout << "ERRORE" << std::endl;    // file not found
+        qDebug() <<  "ERRORE";    // file not found
+        QMessageBox msgBox;
+        msgBox.setText("Errore File!");
+        msgBox.exec();
         return false;                //
     }
 
@@ -27,6 +35,9 @@ bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &re
 
     //close file input
     input.close();
+    end = clock();
+    std::cout << "finito!! Tempo impiegato:";
+    std::cout << roundf((float(end - start) / CLOCKS_PER_SEC) * 100) / 100 << std::endl;
     return true;
 }
 
@@ -53,19 +64,13 @@ bool input_file::fill_in(const std::string &line, std::map<std::string, std::vec
             return false;
         }
     }
-    id = temp;    //set id
-    water_reading* reading = new water_reading(time,consumo);   //new water_reading         //REMEMBER STRING DATE IS WITHIN  ""YYYY-MM....."\"
-     reading_map[id].push_back(reading); //push back water reading in readings vector
+    id = temp;
+    water_reading* newRec = new water_reading(time,consumo);   //i'm not deleting this instance cause iwill need it throughout the program
+    reading_map[id].push_back(newRec); //push back water reading in readings vector
 
     // i'm not deleting this instance cause it will be used throughout this program
-
     return true;
 }
 
-void input_file::setValue(QString str){ //stampa quello passato dal sender, qui esplicito un nome della variabile
-    QMessageBox msgBox;
-    msgBox.setText(str);
-    msgBox.exec();
 
-}
 

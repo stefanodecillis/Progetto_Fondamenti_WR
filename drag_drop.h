@@ -3,6 +3,7 @@
 #include "water_reading.h"
 #include <QWidget>
 
+
 namespace Ui {
 class drag_drop;
 }
@@ -20,9 +21,9 @@ public:
     void dropEvent(QDropEvent* event);
 
 
-
 private:
     Ui::drag_drop *ui;
+
 
 signals://metodo per l'invio di una stringa al receiver
     void sendstring(QString);
