@@ -38,11 +38,11 @@ void visualizzaione::aggiungi_grafico(){//grafico1- funzionalitàa 1
 
     QCPBars *regen2 = new QCPBars(ui->customPlot->xAxis, ui->customPlot->yAxis);
      ui->customPlot->addPlottable(regen2);
-    QString da=ui->textbox1->text();//codice cliente
+    QString id=ui->textbox1->text();//codice cliente
     std::vector<double> appoggio;//qui ci salvo i valori restituiti dalla funzione Consumo_tot-epr_month
-
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,id.toStdString());
     for(int i=1;i<13;i++){
-        regenData<<visualizzaione::Consumo_tot_per_month(i,da.toStdString(),appoggio);
+        regenData<<visualizzaione::Consumo_tot_per_month(i,id.toStdString(),appoggio);
     }
     //ricorda setto coordinate max y .
     auto biggest = std::max_element(std::begin(appoggio), std::end(appoggio));
@@ -67,12 +67,13 @@ void visualizzaione::aggiungi_grafico(){//grafico1- funzionalitàa 1
 
 
 
-double visualizzaione::Consumo_tot_per_month(int month,std::string stringa,std::vector<double> &app){
+double visualizzaione::Consumo_tot_per_month(int month,std::string user,std::vector<double> &app){
     //per ogni mese e codice persona, sommo tutti i consumi
     double tot=0;
-    for(size_t t=0;t<Struttura_dati::Wreading.at(stringa).size();t++){
-        if(month==Struttura_dati::Wreading.at(stringa)[t]->get_data().tm_mon){
-            tot+=Struttura_dati::Wreading.at(stringa)[t]->get_consumption();
+    std::vector<water_reading*> vect = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+    for(size_t t=0;t<vect.size();t++){
+        if(month== vect[t]->get_data().tm_mon){
+            tot+=vect[t]->get_consumption();
             app.push_back(tot);
         }}
     qDebug()<<month<<"->"<<tot;
