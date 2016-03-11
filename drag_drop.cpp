@@ -39,9 +39,11 @@ void drag_drop::dropEvent(QDropEvent* event){
     QList <QUrl> urls;
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
+    //QString subString = QString::fromStdString(path_str);
+  QString subString=path.mid(7,path.size()-7);//lavoro la stinga perchè dopo sia valida per la lettura da file
+  //QString ab="/";
 
-QString subString=path.mid(8,path.size()-8);//lavoro la stinga perchè dopo sia valida per la lettura da file
-    emit sendstring(subString);//passa il parametro alla funzione del sender, ed avvia il segnale alla classe menu
+  emit sendstring(subString);//passa il parametro alla funzione del sender, ed avvia il segnale alla classe menu
     Menu *p=new Menu;//instanzio visualizzo e chiudo il form corrente
     p->show();
     this->close();
