@@ -9,6 +9,11 @@
 #include "input_file.h"
 #include <string>
 #include<menu.h>
+#ifdef OS_WINDOWS
+   #define WIN 8
+#else
+  #define WIN 7
+#endif
 //#include<struttura_dati.h>
 
 
@@ -40,11 +45,9 @@ void drag_drop::dropEvent(QDropEvent* event){
     QString path = event ->mimeData()->urls().at(0).toString();
     std::string path_str = path.toStdString();
     //QString subString = QString::fromStdString(path_str);
-  QString subString=path.mid(7,path.size()-7);//lavoro la stinga perchè dopo sia valida per la lettura da file
-  //QString ab="/";
-
+  QString subString=path.mid(WIN,path.size()-WIN);//lavoro la stinga perchè dopo sia valida per la lettura da file
   emit sendstring(subString);//passa il parametro alla funzione del sender, ed avvia il segnale alla classe menu
-    Menu *p=new Menu;//instanzio visualizzo e chiudo il form corrente
+    Menu *p=new Menu;//instanzio visualizzo e chiudo il fsorm corrente
     p->show();
     this->close();
     event->accept();
