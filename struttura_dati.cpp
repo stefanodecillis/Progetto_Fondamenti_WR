@@ -12,6 +12,7 @@ void Struttura_dati::sort_vect(std::map <std::string, std::vector<water_reading*
 }
 
 
+//
 std::vector<water_reading*> Struttura_dati::score_ranges(std::vector<water_reading*> vect_user)
 {
     std::vector<water_reading*> vect_cons;
