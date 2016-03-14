@@ -69,8 +69,13 @@ void visualizzaione::aggiungi_grafico(){//grafico1- funzionalitàa 1
     regen2->setPen(pen);
     regen2->setBrush(QColor(255,131,0,50));
     qDebug()<<*biggest<<" valore big";//non funge per ora
+    ui->lineEdit_4->setText(QString::number(*biggest));
      qDebug()<<mino<<" valore small";
+     ui->lineEdit_3->setText(QString::number(mino));
      qDebug()<<avg<<" media";
+     qDebug()<<consum_tot(appoggio)<<" totale";
+     ui->lineEdit->setText(QString::number(consum_tot(appoggio)));
+     ui->lineEdit_2->setText(QString::number(avg));
     ui->customPlot->yAxis->setRange(0,*biggest+2);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot->replot();
@@ -159,4 +164,10 @@ double visualizzaione::consum_min (std::vector<double> user)
      }
     }
     return min;
+}
+
+double visualizzaione::consum_tot(std::vector<double> user){
+    double tot=0;
+    for (size_t i = 0; i < user.size(); i++)tot+=user.at(i);
+   return tot;
 }

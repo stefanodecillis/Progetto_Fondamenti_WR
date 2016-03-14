@@ -16,6 +16,7 @@ public:
     static double Consumo_tot_per_month(int month, std::string stringa, std::vector<double> &app);
     static double consum_media (std::vector<double>user);
     static double consum_min (std::vector<double> user);
+    static double consum_tot (std::vector<double> user);
 private slots:
     void on_textbox1_editingFinished();
     void aggiungi_grafico();
