@@ -19,6 +19,7 @@ public:
     static double consum_min (std::vector<double> user);
     static double consum_tot (std::vector<double> user);
     std::vector<double> monthly(int month, std::string user, int chosen);
+    std::vector<double> daily (int month, int day, std::string user);
 private slots:
     void on_textbox1_editingFinished();
     void aggiungi_grafico();

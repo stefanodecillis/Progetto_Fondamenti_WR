@@ -233,3 +233,22 @@ std::vector<double> visualizzaione::monthly(int month, std::string user, int cho
        return values;
    }
 }
+
+std::vector<double> visualizzaione::daily (int month, int day, std::string user)
+{
+    double tot=0;
+    std::vector<double> values;
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+    for (int hh = 1; hh <= 24; hh++)
+    {
+        tot = 0;
+        for (size_t i = 0; i < consum_user.size(); i++)
+        {
+            if (consum_user[i]->get_data().tm_mon == month && consum_user[i]->get_data().tm_mday == day && consum_user[i]->get_data().tm_hour == hh)
+            {
+                tot += consum_user[i]->get_consumption();
+            }
+        }
+        values.push_back(tot);
+    }
+}
