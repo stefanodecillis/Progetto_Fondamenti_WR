@@ -9,8 +9,9 @@
 #include "input_file.h"
 #include <string>
 #include<menu.h>
+
 #ifdef OS_WINDOWS
-   #define WIN 8
+  #define WIN 8
 #else
   #define WIN 7
 #endif

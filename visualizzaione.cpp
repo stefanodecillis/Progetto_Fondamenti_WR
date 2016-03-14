@@ -3,6 +3,7 @@
 #include <qdebug.h>
 #include<qstring.h>
 #include<struttura_dati.h>
+#include <iostream>
 
 
 visualizzaione::visualizzaione(QWidget *parent):
@@ -44,22 +45,33 @@ void visualizzaione::aggiungi_grafico(){//grafico1- funzionalitàa 1
     for(int i=1;i<13;i++){
         regenData<<visualizzaione::Consumo_tot_per_month(i,id.toStdString(),appoggio);
     }
+
+    for (double d : appoggio) {
+        std::cout << "Value in appoggio: "<< d << std::endl;
+    }
+
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,id.toStdString());
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(id.toStdString()));
+    std::vector<float> consum;
+    for (size_t i = 0; i < consum_user.size(); i++)
+    {
+        consum.push_back(consum_user[i]->get_consumption());  // salvo tutti i consumi in un vettore
+    }
     //ricorda setto coordinate max y .
     auto biggest = std::max_element(std::begin(appoggio), std::end(appoggio));
-     auto mino = std::min_element(std::begin(appoggio), std::end(appoggio));
+     double mino = consum_min(appoggio);
+     std::cout << mino << std::endl;
     //trovo media
-    double accomu=0;
-    for(size_t i=0;i<appoggio.size();i++)accomu+=appoggio.at(i);
-    accomu=(accomu/appoggio.size());
+    double avg= consum_media(appoggio);
     QPen pen;
     pen.setWidth(1.2);
     pen.setColor(QColor(255,131,20));
     regen2->setPen(pen);
     regen2->setBrush(QColor(255,131,0,50));
     qDebug()<<*biggest<<" valore big";//non funge per ora
-     qDebug()<<*mino<<" valore small";
-     qDebug()<<accomu<<" media";
-    ui->customPlot->yAxis->setRange(0,*biggest);//numeri y range
+     qDebug()<<mino<<" valore small";
+     qDebug()<<avg<<" media";
+    ui->customPlot->yAxis->setRange(0,*biggest+2);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot->replot();
 }
@@ -70,14 +82,16 @@ void visualizzaione::aggiungi_grafico(){//grafico1- funzionalitàa 1
 double visualizzaione::Consumo_tot_per_month(int month,std::string user,std::vector<double> &app){
     //per ogni mese e codice persona, sommo tutti i consumi
     double tot=0;
-    std::vector<water_reading*> vect = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-    for(size_t t=0;t<vect.size();t++){
-        if(month== vect[t]->get_data().tm_mon){
-            tot+=vect[t]->get_consumption();
-            app.push_back(tot);
-        }}
-    qDebug()<<month<<"->"<<tot;
-    return tot;
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+   for (size_t i = 0; i < consum_user.size(); i++)
+   {
+      if (consum_user[i]->get_data().tm_mon == month)
+      {
+          tot += consum_user[i]->get_consumption();
+      }
+   }
+   app.push_back(tot);
+   return tot;
 }
 
 
@@ -120,4 +134,29 @@ void visualizzaione::on_button1_clicked()
             //non fare nulla, caso default...perchè accetta anche stringa vuota ""
         }
     }//fine if
+}
+double visualizzaione::consum_media (std::vector<double> user)
+{
+    double tot = 0;
+    for (size_t i = 0; i<user.size();i++)
+    {
+        tot += user[i];
+    }
+    if (user.size() == 0)
+        return tot = 0;
+
+    tot = tot / user.size();
+    return  tot;
+}
+
+double visualizzaione::consum_min (std::vector<double> user)
+{
+    double min = user.at(0);
+    for (size_t i = 0; i < user.size(); i++)
+    {
+     if (user.at(i) < min) {
+         min = user.at(i);
+     }
+    }
+    return min;
 }
