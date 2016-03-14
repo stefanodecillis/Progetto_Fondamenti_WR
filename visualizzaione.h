@@ -2,6 +2,7 @@
 #define VISUALIZZAIONE_H
 #include <QWidget>
 #include<water_reading.h>
+#include <vector>
 
 namespace Ui {
 class visualizzaione;
@@ -17,6 +18,7 @@ public:
     static double consum_media (std::vector<double>user);
     static double consum_min (std::vector<double> user);
     static double consum_tot (std::vector<double> user);
+    std::vector<double> monthly(int month, std::string user, int chosen);
 private slots:
     void on_textbox1_editingFinished();
     void aggiungi_grafico();

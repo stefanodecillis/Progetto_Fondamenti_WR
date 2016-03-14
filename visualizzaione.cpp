@@ -171,3 +171,65 @@ double visualizzaione::consum_tot(std::vector<double> user){
     for (size_t i = 0; i < user.size(); i++)tot+=user.at(i);
    return tot;
 }
+
+std::vector<double> visualizzaione::monthly(int month, std::string user, int chosen)
+{
+   if (chosen == 0)
+    {
+        int day = 0;
+        switch(month)
+        {
+        case 1 : case 3 : case 5 :  case 7 : case 8 : case 10 : case 12:
+            day = 31;
+            break;
+        case 2:
+            day = 28;
+            break;
+        case 4: case 6 : case 9 : case 11 :
+            day = 30;
+            break;
+        default:
+            break;
+        }
+        double tot=0;
+        std::vector<double> values;
+        std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+        for (int i = 1; i <= day; i++)
+        {
+            tot = 0;
+            for (size_t j = 0; j < consum_user.size(); j++)
+            {
+                if (consum_user[j]->get_data().tm_mon == month && consum_user[j]->get_data().tm_mday == i)
+                {
+                    tot+= consum_user[j]->get_consumption();
+                }
+            }
+          values.push_back(tot);
+        }
+        return values;
+    }
+   else if (chosen == 1)
+   {
+       double tot=0;
+       std::vector<double> values;
+       std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+       for (size_t i = 0; i < consum_user.size();i++)
+       {
+           if (consum_user[i]->get_data().tm_mon == month)
+           {
+              QDate date(2015,month,consum_user[i]->get_data().tm_mday);
+              if (date.dayOfWeek() == 7)
+              {
+                  tot += consum_user[i]->get_consumption();
+                  values.push_back(tot);
+                  tot = 0;
+              }
+              else{
+               tot += consum_user[i]->get_consumption();
+              }
+           }
+       }
+       values.push_back(tot);
+       return values;
+   }
+}
