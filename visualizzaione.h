@@ -4,6 +4,7 @@
 #include<water_reading.h>
 #include <vector>
 
+
 namespace Ui {
 class visualizzaione;
 }
@@ -22,9 +23,8 @@ public:
     std::vector<double> daily (int month, int day, std::string user);
 private slots:
     void on_textbox1_editingFinished();
-    void aggiungi_grafico();
+    void aggiungi_grafico(std::vector<double>consum_vector);
     void on_button1_clicked();
-
 private:
     Ui::visualizzaione *ui;
     bool input_codice_cliente=false;
