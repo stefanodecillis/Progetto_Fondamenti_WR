@@ -26,6 +26,8 @@ private slots:
     void aggiungi_grafico(std::vector<double> const consum_vector);
     void aggiungi_grafico_2(std::vector<double> const consum_vector);
     void on_button1_clicked();
+    void on_comboBox1_currentIndexChanged(int index);
+
 private:
     Ui::visualizzaione *ui;
     bool input_codice_cliente=false;

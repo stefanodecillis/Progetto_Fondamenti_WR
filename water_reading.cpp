@@ -80,12 +80,12 @@ tm water_reading::get_data()
 {
     return data;
 }
-
+/*
 float water_reading::get_consumption()
 {
     return consumption;
 }
-
+*/
 bool water_reading::compare(water_reading a, int depth)
 {
     int firstParam = 0;

@@ -218,10 +218,7 @@ void visualizzaione::on_button1_clicked()
             visualizzaione::aggiungi_grafico(values);
             ui->tabWidget->setTabEnabled(1,false);
             ui->tabWidget->setTabEnabled(2,false);
-            ui->label_7->setVisible(false);
-            ui->comboBox->setVisible(false);
-            ui->label_8->setVisible(false);
-            ui->comboBox_2->setVisible(false);
+
         }else if(ui->comboBox1->currentText().toStdString()=="Mensile"){
             ui->tabWidget->setCurrentIndex(1);
             ui->customPlot_2->show();
@@ -229,10 +226,7 @@ void visualizzaione::on_button1_clicked()
             ui->tabWidget->setTabEnabled(0,false);
             ui->tabWidget->setTabEnabled(2,false);
             std::vector<double> values;
-            ui->label_7->setVisible(true);
-            ui->comboBox->setVisible(true);
-            ui->label_8->setVisible(true);
-            ui->comboBox_2->setVisible(true);
+
 
             if(ui->comboBox->currentIndex()==0){//primo caso
                  values = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};//monthly(ui->comboBox1->currentIndex(), ui->textbox1->text().toStdString(), 0);
@@ -246,10 +240,7 @@ void visualizzaione::on_button1_clicked()
             ui->tabWidget->setTabEnabled(0,false);
             ui->tabWidget->setTabEnabled(1,false);
 
-            ui->label_7->setVisible(false);
-            ui->comboBox->setVisible(false);
-            ui->label_8->setVisible(false);
-            ui->comboBox_2->setVisible(false);
+
 
         }else{
             //non fare nulla, caso default...perchè accetta anche stringa vuota ""
@@ -372,3 +363,22 @@ std::vector<double> visualizzaione::daily (int month, int day, std::string user)
 }
 
 
+
+void visualizzaione::on_comboBox1_currentIndexChanged(int index)//evento combobox per mensile-> index=1
+{
+    if(index==1){//sono a mensile..quindi faccio apparire forms per input
+
+        ui->label_7->setVisible(true);
+        ui->comboBox->setVisible(true);
+        ui->label_8->setVisible(true);
+        ui->comboBox_2->setVisible(true);
+
+    }else{//faccio sparire i form per il mese
+
+        ui->label_7->setVisible(false);
+        ui->comboBox->setVisible(false);
+        ui->label_8->setVisible(false);
+        ui->comboBox_2->setVisible(false);
+    }
+
+}
