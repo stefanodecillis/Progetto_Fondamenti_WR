@@ -75,8 +75,8 @@ void visualizzaione::aggiungi_grafico(std::vector<double>consum_vector){//grafic
     QString id=ui->textbox1->text();//codice cliente
 
     //supp_vect=vecttore_input
-    std::vector<double> supp_vect;//qui ci salvo i valori restituiti dalla funzione Consumo_tot-epr_month
     Struttura_dati::sort_vect(Struttura_dati::Wreading,id.toStdString());
+    std::vector<double> supp_vect = consum_vector;//qui ci salvo i valori restituiti dalla funzione Consumo_tot-epr_month
 
     for(int i=0;i<supp_vect.size();i++){
     regenData<<supp_vect.at(i);
@@ -111,19 +111,24 @@ void visualizzaione::aggiungi_grafico(std::vector<double>consum_vector){//grafic
 
 
 
-double visualizzaione::Consumo_tot_per_month(int month,std::string user,std::vector<double> &app){
+std::vector<double> visualizzaione::Consumo_tot_per_month(std::string user){
     //per ogni mese e codice persona, sommo tutti i consumi
     double tot=0;
+    std::vector<double> values;
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-   for (size_t i = 0; i < consum_user.size(); i++)
-   {
-      if (consum_user[i]->get_data().tm_mon == month)
-      {
-          tot += consum_user[i]->get_consumption();
-      }
-   }
-   app.push_back(tot);
-   return tot;
+    for (int i = 1; i<= 12;i++)
+    {
+        tot = 0;
+        for (size_t i = 0; i < consum_user.size(); i++)
+        {
+            if (consum_user[i]->get_data().tm_mon == i)
+            {
+                tot += consum_user[i]->get_consumption();
+            }
+        }
+        values.push_back(tot);
+    }
+   return values;
 }
 
 
