@@ -20,7 +20,7 @@ ui->comboBox_2->setVisible(false);
 
 }
 
-void visualizzaione::aggiungi_grafico(std::vector<double>consum_vector){//grafico1- funzionalitàa 1
+void visualizzaione::aggiungi_grafico(std::vector<double> const consum_vector){//grafico1
     ui->customPlot->clearPlottables();//pulisco grafico corrente
     // prepare x axis:
     ui->customPlot->xAxis->setAutoTicks(false);
@@ -53,14 +53,12 @@ void visualizzaione::aggiungi_grafico(std::vector<double>consum_vector){//grafic
         break;
 
     default:
-        for(int i=1;i<=consum_vector.size();i++){
+        for(size_t i=1;i<=consum_vector.size();i++){
            ticks<< i;
            labels<< QString::number(i);
         }
         break;
     }
-
-
 
 
     //aggiungo dati x e y
@@ -72,56 +70,113 @@ void visualizzaione::aggiungi_grafico(std::vector<double>consum_vector){//grafic
     QCPBars *regen2 = new QCPBars(ui->customPlot->xAxis, ui->customPlot->yAxis);
      ui->customPlot->addPlottable(regen2);
 
-    QString id=ui->textbox1->text();//codice cliente
-
-    //supp_vect=vecttore_input
-    Struttura_dati::sort_vect(Struttura_dati::Wreading,id.toStdString());
-    std::vector<double> supp_vect = consum_vector;//qui ci salvo i valori restituiti dalla funzione Consumo_tot-epr_month
-
-    for(int i=0;i<supp_vect.size();i++){
-    regenData<<supp_vect.at(i);
+    for(size_t i=0;i<consum_vector.size();i++){
+    regenData<<consum_vector.at(i);
     }
 
     //ricorda setto coordinate max y .
-    auto biggest = std::max_element(std::begin(supp_vect), std::end(supp_vect));
-     double mino = consum_min(supp_vect);
+    auto biggest = std::max_element(std::begin(consum_vector), std::end(consum_vector));
+     double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
      std::cout << mino << std::endl;
     //trovo media
-    double avg= consum_media(supp_vect);
+    double avg= consum_media(consum_vector);
    //colori plot
     QPen pen;
     pen.setWidth(1.2);
     pen.setColor(QColor(255,131,20));
     regen2->setPen(pen);
     regen2->setBrush(QColor(255,131,0,50));
-    qDebug()<<*biggest<<" valore big";//non funge per ora
+    qDebug()<<*biggest<<" valore big";
      qDebug()<<mino<<" valore small";
      ui->lineEdit_3->setText(QString::number(mino));
      qDebug()<<avg<<" media";
-     qDebug()<<consum_tot(supp_vect)<<" totale";
+     qDebug()<<consum_tot(consum_vector)<<" totale";
      //setta valori media,max,min
      ui->lineEdit_4->setText(QString::number(*biggest));
-     ui->lineEdit->setText(QString::number(consum_tot(supp_vect)));
+     ui->lineEdit->setText(QString::number(consum_tot(consum_vector)));
      ui->lineEdit_2->setText(QString::number(avg));
     ui->customPlot->yAxis->setRange(0,*biggest+2);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot->replot();
 }
 
+//Grafico 2 --- Mensile
 
+void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector){//grafico1
+    ui->customPlot_2->clearPlottables();//pulisco grafico corrente
+    // prepare x axis:
+    ui->customPlot_2->xAxis->setAutoTicks(false);
+    ui->customPlot_2->xAxis->setAutoTickLabels(false);
+    ui->customPlot_2->xAxis->setTickLabelRotation(60);
+    ui->customPlot_2->xAxis->setTickLength(0, 4);//lunghezza righetta verticale-non necessaria
+    ui->customPlot_2->xAxis->grid()->setVisible(true);
+    // prepare y axis:
+    //N.B il numero y lo setto dopo con il
+    ui->customPlot_2->yAxis->setPadding(3); // spazio la
+    ui->customPlot_2->yAxis->grid()->setSubGridVisible(true);
+    // Add data:
+    QVector<double>regenData;
+    QVector<double> ticks;
+    QVector<QString> labels;
+    //switch per l'input dei dati
+
+    for(size_t i=1;i<=consum_vector.size();i++){
+        ticks<< i;
+        labels<< QString::number(i);
+}
+
+    //aggiungo dati x e y
+    ui->customPlot_2->xAxis->setTickVector(ticks);//numero colonne
+    ui->customPlot_2->xAxis->setTickVectorLabels(labels);
+
+    ui->customPlot->xAxis->setRange(0, consum_vector.size()+1);//numero colonne+1
+
+    QCPBars *regen2 = new QCPBars(ui->customPlot_2->xAxis, ui->customPlot_2->yAxis);
+     ui->customPlot_2->addPlottable(regen2);
+
+    for(size_t i=0;i<consum_vector.size();i++){
+    regenData<<consum_vector.at(i);
+    }
+
+    //ricorda setto coordinate max y .
+    auto biggest = std::max_element(std::begin(consum_vector), std::end(consum_vector));
+     double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
+     std::cout << mino << std::endl;
+    //trovo media
+    double avg= consum_media(consum_vector);
+   //colori plot
+    QPen pen;
+    pen.setWidth(1.2);
+    pen.setColor(QColor(255,131,20));
+    regen2->setPen(pen);
+    regen2->setBrush(QColor(255,190,0,50));
+    qDebug()<<*biggest<<" valore big";
+     qDebug()<<mino<<" valore small";
+     ui->lineEdit_3->setText(QString::number(mino));
+     qDebug()<<avg<<" media";
+     qDebug()<<consum_tot(consum_vector)<<" totale";
+     //setta valori media,max,min
+     ui->lineEdit_4->setText(QString::number(*biggest));
+     ui->lineEdit->setText(QString::number(consum_tot(consum_vector)));
+     ui->lineEdit_2->setText(QString::number(avg));
+    ui->customPlot_2->yAxis->setRange(0,*biggest+2);//numeri y range
+    regen2->setData(ticks, regenData);//inserisce i valori delle colonne
+    ui->customPlot_2->replot();
+}
 
 
 std::vector<double> visualizzaione::Consumo_tot_per_month(std::string user){
     //per ogni mese e codice persona, sommo tutti i consumi
     double tot=0;
     std::vector<double> values;
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-    for (int i = 1; i<= 12;i++)
+    for (int month = 1; month<= 12;month++)
     {
         tot = 0;
         for (size_t i = 0; i < consum_user.size(); i++)
         {
-            if (consum_user[i]->get_data().tm_mon == i)
+            if (consum_user[i]->get_data().tm_mon == month)
             {
                 tot += consum_user[i]->get_consumption();
             }
@@ -157,8 +212,10 @@ void visualizzaione::on_button1_clicked()
         if(ui->comboBox1->currentText().toStdString()=="Annuale"){
             ui->tabWidget->setCurrentIndex(0);
             ui->customPlot->show();
-
-            //visualizzaione::aggiungi_grafico();
+            ui->customPlot_2->close();
+            QString user = ui->textbox1->text();
+            std::vector<double> values = Consumo_tot_per_month(user.toStdString());
+            visualizzaione::aggiungi_grafico(values);
             ui->tabWidget->setTabEnabled(1,false);
             ui->tabWidget->setTabEnabled(2,false);
             ui->label_7->setVisible(false);
@@ -167,20 +224,23 @@ void visualizzaione::on_button1_clicked()
             ui->comboBox_2->setVisible(false);
         }else if(ui->comboBox1->currentText().toStdString()=="Mensile"){
             ui->tabWidget->setCurrentIndex(1);
+            ui->customPlot_2->show();
+            ui->customPlot->close();
             ui->tabWidget->setTabEnabled(0,false);
             ui->tabWidget->setTabEnabled(2,false);
-            std::vector<double> val;
-            if(ui->comboBox->currentIndex()==0){//primo caso
-                 val = monthly(ui->comboBox1->currentIndex(), ui->textbox1->text().toStdString(), 0);
-            }else{//secondo caso
-            val = monthly(ui->comboBox1->currentIndex(), ui->textbox1->text().toStdString(), 1);
-            }
-            visualizzaione::aggiungi_grafico(val);
-
+            std::vector<double> values;
             ui->label_7->setVisible(true);
             ui->comboBox->setVisible(true);
             ui->label_8->setVisible(true);
             ui->comboBox_2->setVisible(true);
+
+            if(ui->comboBox->currentIndex()==0){//primo caso
+                 values = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};//monthly(ui->comboBox1->currentIndex(), ui->textbox1->text().toStdString(), 0);
+            }else{//secondo caso
+            values = {1,2,3,4,5};//monthly(ui->comboBox1->currentIndex(), ui->textbox1->text().toStdString(), 1);
+            }
+            visualizzaione::aggiungi_grafico_2(values);
+
         }else if(ui->comboBox1->currentText().toStdString()=="Giornaliero"){
             ui->tabWidget->setCurrentIndex(2);
             ui->tabWidget->setTabEnabled(0,false);
@@ -230,6 +290,8 @@ double visualizzaione::consum_tot(std::vector<double> user){
 
 std::vector<double> visualizzaione::monthly(int month, std::string user, int chosen)
 {
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+
    if (chosen == 0)
     {
         int day = 0;
@@ -245,7 +307,7 @@ std::vector<double> visualizzaione::monthly(int month, std::string user, int cho
             day = 30;
             break;
         default:
-            break;
+            day = 30;
         }
         double tot=0;
         std::vector<double> values;
