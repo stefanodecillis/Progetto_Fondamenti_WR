@@ -29,6 +29,10 @@ private slots:
     void on_button1_clicked();
     void on_comboBox1_currentIndexChanged(int index);
 
+    void on_comboBox_2_currentIndexChanged(const QString &arg1);
+
+
+
 private:
     Ui::visualizzaione *ui;
     bool input_codice_cliente=false;

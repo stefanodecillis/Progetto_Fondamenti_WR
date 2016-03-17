@@ -13,13 +13,12 @@ visualizzaione::visualizzaione(QWidget *parent):
     ui->setupUi(this);
 ui->label_7->setVisible(false);
 ui->comboBox->setVisible(false);
-ui ->d31->setVisible(false);
-ui->d30->setVisible(false);
-ui->d28->setVisible(false);
+ui ->days->setVisible(false);
+ui->giorno->setVisible(false);
 
 ui->label_8->setVisible(false);
 ui->comboBox_2->setVisible(false);
-    ui->customPlot->hide();
+ui->customPlot->hide();
 
 }
 
@@ -287,18 +286,8 @@ void visualizzaione::on_button1_clicked()
             visualizzaione::aggiungi_grafico(values);
             ui->tabWidget->setTabEnabled(1,false);
             ui->tabWidget->setTabEnabled(2,false);
-<<<<<<< HEAD
-            ui->label_7->setVisible(false);
-            ui->comboBox->setVisible(false);
-            ui->label_8->setVisible(false);
-            ui->comboBox_2->setVisible(false);
-            ui->d30->setVisible(false);
-            ui->d28->setVisible(false);
-            ui ->d31->setVisible(false);
-            ui->giorno->setVisible(false);
-=======
 
->>>>>>> f2ed0285f7764ef66374597051f23b2ed7034f77
+
         }else if(ui->comboBox1->currentText().toStdString()=="Mensile"){
             ui->tabWidget->setCurrentIndex(1);
             ui->customPlot_2->show();
@@ -307,12 +296,6 @@ void visualizzaione::on_button1_clicked()
             ui->tabWidget->setTabEnabled(0,false);
             ui->tabWidget->setTabEnabled(2,false);
             std::vector<double> values;
-
-
-            ui->d30->setVisible(false);
-            ui->d28->setVisible(false);
-            ui ->d31->setVisible(false);
-            ui->giorno->setVisible(false);
             if(ui->comboBox->currentIndex()==0){//primo caso
                  values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString(), 0);
             }else{//secondo caso
@@ -328,15 +311,11 @@ void visualizzaione::on_button1_clicked()
             ui->customPlot->hide();
             ui->customPlot_2->hide();
             ui->customPlot_3->show();
-
-<<<<<<< HEAD
             QString user = ui->textbox1->text();
-            ui->label_7->setVisible(false);
-            ui->comboBox->setVisible(false);
-            ui->label_8->setVisible(false);
-            ui->comboBox_2->setVisible(false);
-            ui->giorno->setVisible(true);
-            std::vector<double> values;
+           std::vector<double> values;
+           values = daily(ui->comboBox_2->currentIndex()+1,ui->days->currentIndex()+1,user.toStdString());
+           visualizzaione::aggiungi_grafico_3(values);
+            /*
             if (ui->comboBox_2->currentIndex()==0 || ui->comboBox_2->currentIndex()==2 || ui->comboBox_2->currentIndex()==4 ||
                ui->comboBox_2->currentIndex()==6 || ui->comboBox_2->currentIndex()==7 || ui->comboBox_2->currentIndex()==99 || ui->comboBox_2->currentIndex()== 11)
             {
@@ -360,11 +339,8 @@ void visualizzaione::on_button1_clicked()
                 values = daily(ui->comboBox_2->currentIndex()+1,ui->d30->currentIndex()+1,user.toStdString());
             }
 
-           visualizzaione::aggiungi_grafico_3(values);
-=======
 
->>>>>>> f2ed0285f7764ef66374597051f23b2ed7034f77
-
+           */
         }else{
             //non fare nulla, caso default...perchè accetta anche stringa vuota ""
         }
@@ -483,25 +459,55 @@ std::vector<double> visualizzaione::daily (int month, int day, std::string user)
         }
         values.push_back(tot);
     }
+    return values;
 }
 
 
 
-void visualizzaione::on_comboBox1_currentIndexChanged(int index)//evento combobox per mensile-> index=1
+void visualizzaione::on_comboBox1_currentIndexChanged(int index)//evento combobox
 {
-    if(index==1){//sono a mensile..quindi faccio apparire forms per input
-
-        ui->label_7->setVisible(true);
-        ui->comboBox->setVisible(true);
-        ui->label_8->setVisible(true);
-        ui->comboBox_2->setVisible(true);
-
-    }else{//faccio sparire i form per il mese
-
+    // qDebug()<<ui->comboBox1->currentText();
+    if(index==0){//sono a mensile..quindi faccio apparire forms per input
         ui->label_7->setVisible(false);
         ui->comboBox->setVisible(false);
         ui->label_8->setVisible(false);
         ui->comboBox_2->setVisible(false);
+        ui->giorno->setVisible(false);
+        ui->days->setVisible(false);
+        ui->giorno->setVisible(false);
+    }else if(index==1){//faccio sparire i form per il mese
+        ui->days->setVisible(false);
+        ui->label_7->setVisible(true);
+        ui->comboBox->setVisible(true);
+        ui->label_8->setVisible(true);
+        ui->comboBox_2->setVisible(true);
+        ui->giorno->setVisible(false);
+    }else if(index==2){
+        ui->days->setVisible(true);
+        ui->giorno->setVisible(true);
+        ui->label_7->setVisible(false);
+        ui->comboBox->setVisible(false);
+        ui->label_8->setVisible(true);
+        ui->comboBox_2->setVisible(true);
     }
-
 }
+
+void visualizzaione::on_comboBox_2_currentIndexChanged(const QString &arg1)
+{
+    if(ui->comboBox1->currentText()=="Giornaliero"){//validazione giornaliero
+        if(arg1=="Aprile" || arg1=="Giugno" || arg1=="Settembre" || arg1=="Novembre" ){//30
+            ui->days->clear();
+            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28"<<"29"<<"30");
+            ui->days->addItems(list);
+        }else if(arg1=="Febbraio"){//28
+            ui->days->clear();
+            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28");
+            ui->days->addItems(list);
+        }else{//31
+            ui->days->clear();
+            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28"<<"29"<<"30"<<"31");
+            ui->days->addItems(list);
+        }}
+}
+
+
