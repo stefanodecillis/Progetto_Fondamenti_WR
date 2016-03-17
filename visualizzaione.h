@@ -25,6 +25,7 @@ private slots:
     void on_textbox1_editingFinished();
     void aggiungi_grafico(std::vector<double> const consum_vector);
     void aggiungi_grafico_2(std::vector<double> const consum_vector);
+    void aggiungi_grafico_3(std::vector<double> const consum_vector);
     void on_button1_clicked();
     void on_comboBox1_currentIndexChanged(int index);
 
