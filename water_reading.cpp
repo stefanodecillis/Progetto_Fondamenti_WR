@@ -47,17 +47,17 @@ water_reading::water_reading(std::string time, std::string consum)
            temp.clear();
            for (size_t i = 0; i<detime.size() ; i++)
            {
-               if ((time[i] <= '9' && time[i] >='0') || time[i] == ':')
+               if ((detime[i] <= '9' && detime[i] >='0') )
                {
-                   temp += time[i];
+                   temp += detime[i];
                }
-               else if (time[i] == ':' &&  hourFound == false)
+               else if (detime[i] == ':' &&  hourFound == false)
                {
                    hour = stoi(temp);
                    hourFound = true;
                    temp.clear();
                }
-               else if (time[i] == ':' &&  hourFound == true)
+               else if (detime[i] == ':' &&  hourFound == true)
                {
                    min = stoi(temp);
                    temp.clear();

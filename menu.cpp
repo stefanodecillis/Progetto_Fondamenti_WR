@@ -4,6 +4,7 @@
 #include<struttura_dati.h>
 #include<qmessagebox.h>
 #include<input_file.h>
+#include <interrogazione.h>
 
 
 
@@ -38,4 +39,11 @@ std::vector<std::string>indici;
     indici.push_back(i.first);
  }
  Struttura_dati::index=indici;//mi tengo copia dei codici cliente presenti.*
+}
+
+void Menu::on_button2_clicked()//visualizzazione
+{
+    Interrogazione* t= new Interrogazione();//apro la nuova form di vusalizzazione e chiudo la corrente
+    t->show();
+    this->close();
 }

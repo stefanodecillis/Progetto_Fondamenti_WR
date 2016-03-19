@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     struttura_dati.cpp \
     visualizzaione.cpp \
     qcustomplot.cpp \
-    water_reading.cpp
+    water_reading.cpp \
+    interrogazione.cpp
 
 HEADERS  += input_file.h \
     drag_drop.h \
@@ -27,12 +28,14 @@ HEADERS  += input_file.h \
     menu.h \
     visualizzaione.h \
     struttura_dati.h \
-    qcustomplot.h
+    qcustomplot.h \
+    interrogazione.h
 
 FORMS    += \
     drag_drop.ui \
     menu.ui \
-    visualizzaione.ui
+    visualizzaione.ui \
+    interrogazione.ui
 
 
 RESOURCES += \

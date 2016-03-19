@@ -4,6 +4,7 @@
 #include<qstring.h>
 #include<struttura_dati.h>
 #include <iostream>
+#include <menu.h>
 
 
 visualizzaione::visualizzaione(QWidget *parent):
@@ -163,7 +164,7 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
      ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
      ui->lineEdit->setText(QString::number(consum_tot(consum_vector))+ mc);
      ui->lineEdit_2->setText(QString::number(avg)+ mc);
-    ui->customPlot_2->yAxis->setRange(0,*biggest+2);//numeri y range
+    ui->customPlot_2->yAxis->setRange(0,*biggest+1);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot_2->replot();
 }
@@ -227,7 +228,7 @@ void visualizzaione::aggiungi_grafico_3(std::vector<double> const consum_vector)
      ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
      ui->lineEdit->setText(QString::number(consum_tot(consum_vector))+ mc);
      ui->lineEdit_2->setText(QString::number(avg)+ mc);
-    ui->customPlot_3->yAxis->setRange(0,*biggest+2);//numeri y range
+    ui->customPlot_3->yAxis->setRange(0,*biggest);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot_3->replot();
 }
@@ -250,6 +251,7 @@ std::vector<double> visualizzaione::Consumo_tot_per_month(std::string user){
         }
         values.push_back(tot);
     }
+
    return values;
 }
 
@@ -299,7 +301,7 @@ void visualizzaione::on_button1_clicked()
             if(ui->comboBox->currentIndex()==0){//primo caso
                  values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString(), 0);
             }else{//secondo caso
-            values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString(), 1);
+            values = {1,2,3,4,5};//monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString(), 1);
             }
             visualizzaione::aggiungi_grafico_2(values);
 
@@ -315,32 +317,7 @@ void visualizzaione::on_button1_clicked()
            std::vector<double> values;
            values = daily(ui->comboBox_2->currentIndex()+1,ui->days->currentIndex()+1,user.toStdString());
            visualizzaione::aggiungi_grafico_3(values);
-            /*
-            if (ui->comboBox_2->currentIndex()==0 || ui->comboBox_2->currentIndex()==2 || ui->comboBox_2->currentIndex()==4 ||
-               ui->comboBox_2->currentIndex()==6 || ui->comboBox_2->currentIndex()==7 || ui->comboBox_2->currentIndex()==99 || ui->comboBox_2->currentIndex()== 11)
-            {
-                ui ->d31->setVisible(true);
-                ui->d30->setVisible(false);
-                ui->d28->setVisible(false);
-                values = daily(ui->comboBox_2->currentIndex()+1,ui->d31->currentIndex()+1,user.toStdString());
-            }
-            else if (ui->comboBox->currentIndex()==1)
-            {
-                ui->d28->setVisible(true);
-                ui->d30->setVisible(false);
-                ui ->d31->setVisible(false);
-                values = daily(ui->comboBox_2->currentIndex()+1,ui->d28->currentIndex()+1,user.toStdString());
-            }
-            else
-            {
-                ui->d30->setVisible(true);
-                ui->d28->setVisible(false);
-                ui ->d31->setVisible(false);
-                values = daily(ui->comboBox_2->currentIndex()+1,ui->d30->currentIndex()+1,user.toStdString());
-            }
 
-
-           */
         }else{
             //non fare nulla, caso default...perchè accetta anche stringa vuota ""
         }
@@ -438,6 +415,10 @@ std::vector<double> visualizzaione::monthly(int month, std::string user, int cho
            }
        }
        values.push_back(tot);
+       for (size_t i = 0; i< values.size(); i++)
+       {
+           std::cout << values[i] << std::endl;
+       }
        return values;
    }
 }
@@ -446,17 +427,23 @@ std::vector<double> visualizzaione::daily (int month, int day, std::string user)
 {
     double tot=0;
     std::vector<double> values;
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-    for (int hh = 1; hh <= 24; hh++)
+    for (int hh = 0; hh <= 23; hh++)
     {
         tot = 0;
         for (size_t i = 0; i < consum_user.size(); i++)
         {
-            if (consum_user[i]->get_data().tm_mon == month && consum_user[i]->get_data().tm_mday == day && consum_user[i]->get_data().tm_hour == hh)
+            if (consum_user[i]->get_data().tm_mon == month && consum_user[i]->get_data().tm_mday == day)
             {
-                tot += consum_user[i]->get_consumption();
+
+                if (consum_user[i]->get_data().tm_hour == hh)
+                {
+                    tot += consum_user[i]->get_consumption();//std::cout << "DONE->" << hh << std::endl;
+                }
             }
         }
+
         values.push_back(tot);
     }
     return values;
@@ -490,6 +477,13 @@ void visualizzaione::on_comboBox1_currentIndexChanged(int index)//evento combobo
         ui->label_8->setVisible(true);
         ui->comboBox_2->setVisible(true);
     }
+}
+
+void visualizzaione::on_Return_clicked()
+{
+    Menu* t = new Menu();
+    t->show();
+    this->close();
 }
 
 void visualizzaione::on_comboBox_2_currentIndexChanged(const QString &arg1)

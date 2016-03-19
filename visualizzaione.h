@@ -21,14 +21,15 @@ public:
     static double consum_tot (std::vector<double> user);
     static std::vector<double> monthly(int month, std::string user, int chosen);
     static std::vector<double> daily (int month, int day, std::string user);
+
 private slots:
     void on_textbox1_editingFinished();
     void aggiungi_grafico(std::vector<double> const consum_vector);
     void aggiungi_grafico_2(std::vector<double> const consum_vector);
     void aggiungi_grafico_3(std::vector<double> const consum_vector);
     void on_button1_clicked();
+    void on_Return_clicked();
     void on_comboBox1_currentIndexChanged(int index);
-
     void on_comboBox_2_currentIndexChanged(const QString &arg1);
 
 
@@ -36,6 +37,7 @@ private slots:
 private:
     Ui::visualizzaione *ui;
     bool input_codice_cliente=false;
+    double totale = 0;
 
 };
 
