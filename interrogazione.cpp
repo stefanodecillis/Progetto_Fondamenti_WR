@@ -4,6 +4,8 @@
 #include<qdebug.h>
 #include<qmessagebox.h>
 #include<struttura_dati.h>
+#include <water_reading.h>
+#include <iostream>
 
 Interrogazione::Interrogazione(QWidget *parent) :
     QMainWindow(parent),
@@ -71,24 +73,24 @@ void Interrogazione::on_calendarWidget_clicked(const QDate &date)
 qDebug()<<date;
 }
 
-void Interrogazione::on_lineEdit_editingFinished()
+void Interrogazione::on_Find_user_editingFinished()
 {
     //controlla se l'id specificato esiste o meno
     for(size_t i=0;i<Struttura_dati::index.size();i++){
         QString nuova=QString::fromStdString(Struttura_dati::index.at(i));
-        if(ui->lineEdit->text()==nuova){
+        if(ui->Find_user->text()==nuova){
             input_codice_cliente=true;
-            ui->lineEdit->setStyleSheet("QLineEdit{border:2px solid green;}");
+            ui->Find_user->setStyleSheet("QLineEdit{border:2px solid green;}");
             qDebug()<<nuova;
             return ;
         }
     }
     //se non esiste non faccio nemmeno la ricerca..meglio dare messaggio di avviso
     input_codice_cliente=false;
-    ui->lineEdit->setStyleSheet("QLineEdit{border:2px solid red;}");
+    ui->Find_user->setStyleSheet("QLineEdit{border:2px solid red;}");
 }
 
-void Interrogazione::on_pushButton_2_clicked()
+void Interrogazione::on_Reset_clicked()
 {
     this->count=0;
     ui->data1->setText("");
@@ -100,16 +102,49 @@ void Interrogazione::on_pushButton_2_clicked()
 
 }
 
-void Interrogazione::on_pushButton_clicked()
+void Interrogazione::on_Find_clicked()
 {
     //se il dato input è valido e le date sono valide
     if(this->input_codice_cliente==true&&this->date1.isValid()&&this->date2.isValid()){
         QMessageBox msgBox;
         msgBox.setText("DATI VALIDI");//ho id e data corretta
         msgBox.exec();
+        QDate data1 = QDate::fromString(ui->data1->text(),"dMyyyy");
+         QDate data2 = QDate::fromString(ui->data2->text(),"dMyyyy");
+        double avg_hourly = average_hourly(data1,data2,ui->Find_user->text().toStdString());
+        std::cout << avg_hourly << std::endl;
     }else{
         QMessageBox msgBox;
         msgBox.setText("DATI NON VALIDI");//non ho id e data corretta
         msgBox.exec();
     }
+}
+
+double Interrogazione::average_hourly (QDate data1, QDate data2,std::string user)
+{
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+    tm begin;
+    tm end;
+    begin.tm_year = data1.year();
+    begin.tm_mon = data1.month();
+    begin.tm_mday = data1.daysInMonth();
+    end.tm_year = data2.year();
+    end.tm_mon = data2.month();
+    end.tm_mday = data2.daysInMonth();
+    std::vector<double> values;
+    for (size_t i = 0; i < consum_user.size(); i++)
+    {
+        if (!(water_reading::compare_tm(consum_user[i]->get_data(),begin,0))&& water_reading::compare_tm(consum_user[i]->get_data(),end,0))
+        {
+            values.push_back(consum_user[i]->get_consumption());
+        }
+    }
+    double avg_hourly = values[0];
+    for (size_t i = 1; i<values.size(); i++)
+    {
+        avg_hourly += values[i];
+        avg_hourly = avg_hourly/2;
+    }
+    return avg_hourly;
 }

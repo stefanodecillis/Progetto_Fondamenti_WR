@@ -16,16 +16,17 @@ class Interrogazione : public QMainWindow
 public:
     explicit Interrogazione(QWidget *parent = 0);
     ~Interrogazione();
+    double average_hourly (QDate data1, QDate data2, std::string user);
 private slots:
     void on_Return_clicked();
     void on_calendarWidget_clicked(const QDate &date);
 
 
-    void on_lineEdit_editingFinished();
+    void on_Find_user_editingFinished();
 
-    void on_pushButton_2_clicked();
+    void on_Reset_clicked();
 
-    void on_pushButton_clicked();
+    void on_Find_clicked();
 
 private:
     Ui::Interrogazione *ui;

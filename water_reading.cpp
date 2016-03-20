@@ -80,12 +80,42 @@ tm water_reading::get_data()
 {
     return data;
 }
-/*
-float water_reading::get_consumption()
+
+bool water_reading::compare_tm(tm data1,tm data2, int depth)
 {
-    return consumption;
+    int firstParam = 0;
+    int secondParam = 0;
+    switch(depth)
+    {
+    case 0:
+        firstParam = data1.tm_year;
+        secondParam = data2.tm_year;
+        break;
+    case 1:
+        firstParam = data1.tm_mon;
+        secondParam = data2.tm_mon;
+        break;
+    case 2:
+        firstParam = data1.tm_mday;
+        secondParam = data2.tm_mday;
+        break;
+    default:
+        return false;
+    }
+    if (firstParam < secondParam)
+    {
+        return true;
+    }
+    else if (firstParam >secondParam)
+    {
+        return false;
+    }
+    else
+        return compare_tm(data1,data2, depth+1);
+
+    return false;
 }
-*/
+
 bool water_reading::compare(water_reading a, int depth)
 {
     int firstParam = 0;
@@ -134,16 +164,4 @@ bool water_reading::compare(water_reading a, int depth)
     return false;
 }
 
-std::string water_reading::printDate()
-{
-    std::string date;
-    date+=this->data.tm_year;    //CANCELLARE FUNZIONE
-    date+='-';
-    date+=this->data.tm_mon;
-    date+='-';
-    date += this->data.tm_mday;
-    date+= ' ';
-    date+= this->data.tm_hour;
 
-    return date;
-}

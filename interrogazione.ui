@@ -204,10 +204,10 @@
      <string>##########</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="Find_user">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>140</x>
       <y>10</y>
       <width>81</width>
       <height>20</height>
@@ -219,7 +219,7 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>81</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
@@ -271,7 +271,7 @@
      <string>A</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Find">
     <property name="geometry">
      <rect>
       <x>510</x>
@@ -284,7 +284,7 @@
      <string>Cerca</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="Reset">
     <property name="geometry">
      <rect>
       <x>400</x>

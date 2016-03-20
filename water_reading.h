@@ -15,6 +15,7 @@ public:
     tm get_data();
     float get_consumption(){return consumption;}
     bool compare(water_reading a, int depth);
+    static bool compare_tm(tm data1,tm data2,int depth);
     bool operator <(water_reading b) {
         return compare(b,0);
     }
@@ -23,7 +24,6 @@ public:
         return !(compare(b,0));
     }
 
-    std::string printDate();
 };
 
 
