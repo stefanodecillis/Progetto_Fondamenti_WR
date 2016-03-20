@@ -92,3 +92,32 @@ void Interrogazione::on_lineEdit_editingFinished()
     input_codice_cliente=false;
     ui->lineEdit->setStyleSheet("QLineEdit{border:2px solid red;}");
 }
+
+void Interrogazione::on_pushButton_2_clicked()
+{
+    this->count=0;
+    ui->data1->setText("");
+    ui->data2->setText("");
+QDate null1;
+QDate null2;
+    this->date1=null1;
+    this->date2=null2;
+
+}
+
+void Interrogazione::on_pushButton_clicked()
+{
+    //se il dato input è valido e le date sono valide
+    if(this->input_codice_cliente==true&&this->date1.isValid()&&this->date2.isValid()){
+        QMessageBox msgBox;
+        msgBox.setText("DATI VALIDI");
+        msgBox.exec();
+    }else{
+        QMessageBox msgBox;
+        msgBox.setText("DATI NON VALIDI");
+        msgBox.exec();
+
+    }
+
+
+}

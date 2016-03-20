@@ -23,6 +23,10 @@ private slots:
 
     void on_lineEdit_editingFinished();
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     Ui::Interrogazione *ui;
     bool input_codice_cliente=false;
