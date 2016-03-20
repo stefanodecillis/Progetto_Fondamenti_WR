@@ -16,6 +16,8 @@ public:
     ~Interrogazione();
 private slots:
     void on_Return_clicked();
+    void on_calendarWidget_clicked(const QDate &date);
+
 private:
     Ui::Interrogazione *ui;
 };

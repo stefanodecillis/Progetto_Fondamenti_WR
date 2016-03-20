@@ -453,7 +453,6 @@ std::vector<double> visualizzaione::daily (int month, int day, std::string user)
 
 void visualizzaione::on_comboBox1_currentIndexChanged(int index)//evento combobox
 {
-    // qDebug()<<ui->comboBox1->currentText();
     if(index==0){//sono a mensile..quindi faccio apparire forms per input
         ui->label_7->setVisible(false);
         ui->comboBox->setVisible(false);
