@@ -2,6 +2,8 @@
 #define INTERROGAZIONE_H
 
 #include <QMainWindow>
+#include<QDate>
+
 
 namespace Ui {
 class Interrogazione;
@@ -18,8 +20,12 @@ private slots:
     void on_Return_clicked();
     void on_calendarWidget_clicked(const QDate &date);
 
+
 private:
     Ui::Interrogazione *ui;
+    QDate date1;//ci salvo l'intervallo di date per l'interroazione
+    QDate date2;
+    int count=0;//variabile che controlla che inserisca soltanto una dupla di dati, per i vaori dell'interrogazione
 };
 
 #endif // INTERROGAZIONE_H

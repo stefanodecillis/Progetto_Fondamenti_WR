@@ -34,14 +34,41 @@ Interrogazione::~Interrogazione()
 
 void Interrogazione::on_calendarWidget_clicked(const QDate &date)
 {
-    //valori selezione dal calendario
+
+
+    //faccio il controllo se la prima data è minore della seconda
+if(count==0){
+this->date1=date;
+    QString temp;
+    temp=QString::number(date1.year());
+    temp+="-"+QString::number(date1.month());
+    temp+="-"+QString::number(date1.day());
+    ui->data1->setText(temp);
+    count++;
+}else if(count==1){ //faccio il controllo se la prima data è minore della seconda
+    if(date1>date){//errore selezione dato..rifalla
+     QMessageBox msgBox;
+     msgBox.setText("errore inserimento dato..perchè la data due<data1");
+     msgBox.exec();
+
+    }else{
+        this->date2=date;
+        QString temp2;
+        temp2=QString::number(date2.year());
+        temp2+="-"+QString::number(date2.month());
+        temp2+="-"+QString::number(date2.day());
+        ui->data2->setText(temp2);
+        count++;
+    }
+}else{
+    //non inserisco piu dati..fino alla prossima interrogazione
     QMessageBox msgBox;
-    msgBox.setText(QString::number(date.year()));//date.year, date.month, date.day.. restituiscono interi
+    msgBox.setText("adesso i dati sono validi");//ricordo di settare il contatore
     msgBox.exec();
-    msgBox.setText(QString::number(date.month()));
-    msgBox.exec();
-    msgBox.setText(QString::number(date.day()));
-    msgBox.exec();
+}
+
+
+
 
 qDebug()<<date;
 }
