@@ -10,7 +10,7 @@ Interrogazione::Interrogazione(QWidget *parent) :
     ui(new Ui::Interrogazione)
 {
     ui->setupUi(this);
-    setMaximumSize(714,505);
+    setMaximumSize(714,505);//dimensione fissa
     setMinimumSize(714,505);
     ui->Avg_daily->setVisible(true);
     ui->Avg_hour->setVisible(true);
@@ -53,7 +53,6 @@ void Interrogazione::on_calendarWidget_clicked(const QDate &date)
             QMessageBox msgBox;
             msgBox.setText("errore inserimento dato..perchè la data due<data1");
             msgBox.exec();
-
         }else{
             this->date2=date;
             QString temp2;
@@ -69,10 +68,6 @@ void Interrogazione::on_calendarWidget_clicked(const QDate &date)
         msgBox.setText("adesso i dati sono validi!");//ricordo di settare il contatore
         msgBox.exec();
     }
-
-
-
-
 qDebug()<<date;
 }
 
@@ -98,8 +93,8 @@ void Interrogazione::on_pushButton_2_clicked()
     this->count=0;
     ui->data1->setText("");
     ui->data2->setText("");
-QDate null1;
-QDate null2;
+    QDate null1;
+    QDate null2;
     this->date1=null1;
     this->date2=null2;
 
@@ -110,14 +105,11 @@ void Interrogazione::on_pushButton_clicked()
     //se il dato input è valido e le date sono valide
     if(this->input_codice_cliente==true&&this->date1.isValid()&&this->date2.isValid()){
         QMessageBox msgBox;
-        msgBox.setText("DATI VALIDI");
+        msgBox.setText("DATI VALIDI");//ho id e data corretta
         msgBox.exec();
     }else{
         QMessageBox msgBox;
-        msgBox.setText("DATI NON VALIDI");
+        msgBox.setText("DATI NON VALIDI");//non ho id e data corretta
         msgBox.exec();
-
     }
-
-
 }
