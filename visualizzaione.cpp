@@ -148,6 +148,7 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
      std::cout << mino << std::endl;
     //trovo media
     double avg= consum_media(consum_vector);
+    double high = (*biggest /10);
    //colori plot
     QString mc = "m³";
     QPen pen;
@@ -164,7 +165,7 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
      ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
      ui->lineEdit->setText(QString::number(consum_tot(consum_vector))+ mc);
      ui->lineEdit_2->setText(QString::number(avg)+ mc);
-    ui->customPlot_2->yAxis->setRange(0,*biggest+1);//numeri y range
+    ui->customPlot_2->yAxis->setRange(0,*biggest+ high);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot_2->replot();
 }
@@ -301,7 +302,7 @@ void visualizzaione::on_button1_clicked()
             if(ui->comboBox->currentIndex()==0){//primo caso
                  values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString(), 0);
             }else{//secondo caso
-            values = {1,2,3,4,5};//monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString(), 1);
+            values = weekly( ui->textbox1->text().toStdString(),ui->comboBox_2->currentIndex()+1);
             }
             visualizzaione::aggiungi_grafico_2(values);
 
@@ -393,34 +394,6 @@ std::vector<double> visualizzaione::monthly(int month, std::string user, int cho
         }
         return values;
     }
-   else if (chosen == 1)
-   {
-       double tot=0;
-       std::vector<double> values;
-       std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-       for (size_t i = 0; i < consum_user.size();i++)
-       {
-           if (consum_user[i]->get_data().tm_mon == month)
-           {
-              QDate date(2015,month,consum_user[i]->get_data().tm_mday);
-              if (date.dayOfWeek() == 7)
-              {
-                  tot += consum_user[i]->get_consumption();
-                  values.push_back(tot);
-                  tot = 0;
-              }
-              else{
-               tot += consum_user[i]->get_consumption();
-              }
-           }
-       }
-       values.push_back(tot);
-       for (size_t i = 0; i< values.size(); i++)
-       {
-           std::cout << values[i] << std::endl;
-       }
-       return values;
-   }
 }
 
 std::vector<double> visualizzaione::daily (int month, int day, std::string user)
@@ -431,20 +404,17 @@ std::vector<double> visualizzaione::daily (int month, int day, std::string user)
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
     for (int hh = 0; hh <= 23; hh++)
     {
-        tot = 0;
+
         for (size_t i = 0; i < consum_user.size(); i++)
         {
-            if (consum_user[i]->get_data().tm_mon == month && consum_user[i]->get_data().tm_mday == day)
+            if (consum_user[i]->get_data().tm_mon == month && consum_user[i]->get_data().tm_mday == day && consum_user[i]->get_data().tm_hour == hh)
             {
-
-                if (consum_user[i]->get_data().tm_hour == hh)
-                {
-                    tot += consum_user[i]->get_consumption();//std::cout << "DONE->" << hh << std::endl;
-                }
+              tot += consum_user[i]->get_consumption();
             }
         }
 
-        values.push_back(tot);
+       values.push_back(tot);
+       tot = 0;
     }
     return values;
 }
@@ -503,4 +473,31 @@ void visualizzaione::on_comboBox_2_currentIndexChanged(const QString &arg1)
         }}
 }
 
+std::vector<double> visualizzaione::weekly (const std::string user, int month)
+{
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+    std::vector<water_reading*> vect_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+    std::vector <double> values;
+    double consum = 0;
+    for (size_t i = 0; i < vect_user.size(); i++)
+    {
+
+        if (vect_user[i]->get_data().tm_mon == month)
+        {
+            consum += vect_user[i]->get_consumption();
+             QDate date(2015,month,vect_user[i]->get_data().tm_mday);
+             QDate date2(2015,month,vect_user[i+1]->get_data().tm_mday);
+             if (date.dayOfWeek() == 7 && date2.dayOfWeek() != 7)
+             {
+                 values.push_back(consum);
+                 consum = 0;
+             }
+        }
+    }
+    if(consum != 0)
+    {
+         values.push_back(consum);
+    }
+    return values;
+}
 

@@ -21,6 +21,7 @@ public:
     static double consum_tot (std::vector<double> user);
     static std::vector<double> monthly(int month, std::string user, int chosen);
     static std::vector<double> daily (int month, int day, std::string user);
+    static std::vector<double> weekly (const std::string user, int month);
 
 private slots:
     void on_textbox1_editingFinished();
