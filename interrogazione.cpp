@@ -70,7 +70,7 @@ void Interrogazione::on_calendarWidget_clicked(const QDate &date)
         msgBox.setText("adesso i dati sono validi!");//ricordo di settare il contatore
         msgBox.exec();
     }
-qDebug()<<date;
+//qDebug()<<date;
 }
 
 void Interrogazione::on_Find_user_editingFinished()
@@ -81,7 +81,7 @@ void Interrogazione::on_Find_user_editingFinished()
         if(ui->Find_user->text()==nuova){
             input_codice_cliente=true;
             ui->Find_user->setStyleSheet("QLineEdit{border:2px solid green;}");
-            qDebug()<<nuova;
+            //qDebug()<<nuova;
             return ;
         }
     }
@@ -109,10 +109,16 @@ void Interrogazione::on_Find_clicked()
         QMessageBox msgBox;
         msgBox.setText("DATI VALIDI");//ho id e data corretta
         msgBox.exec();
-        QDate data1 = QDate::fromString(ui->data1->text(),"dMyyyy");
-         QDate data2 = QDate::fromString(ui->data2->text(),"dMyyyy");
+
+
+        QDate data1 = this->date1;
+        //qDebug()<<data1;
+         QDate data2 = this->date2;
+         //qDebug()<<data2;
+
         double avg_hourly = average_hourly(data1,data2,ui->Find_user->text().toStdString());
-        std::cout << avg_hourly << std::endl;
+        //std::cout << avg_hourly << std::endl;
+        qDebug()<<QString::number(avg_hourly);
     }else{
         QMessageBox msgBox;
         msgBox.setText("DATI NON VALIDI");//non ho id e data corretta

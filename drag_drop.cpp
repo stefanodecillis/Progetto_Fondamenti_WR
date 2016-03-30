@@ -13,7 +13,7 @@
 #ifdef OS_WINDOWS
   #define WIN 8
 #else
-  #define WIN 7
+  #define WIN 8
 #endif
 //#include<struttura_dati.h>
 
