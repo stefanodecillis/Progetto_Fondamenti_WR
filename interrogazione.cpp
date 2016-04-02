@@ -118,6 +118,8 @@ void Interrogazione::on_Find_clicked()
          //qDebug()<<data2;
 
           double totalcons = total_consumption(data1,data2,ui->Find_user->text().toStdString());
+          double avg_hour = avg_hourly(data1,data2,ui->Find_user->text().toStdString());
+          ui->setHere_hour->setText(QString::number(avg_hour));
 ui->setHere_tot->setText(QString::number(totalcons));
         qDebug()<<QString::number(totalcons);
     }else{
@@ -168,4 +170,34 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
 return total_consumption;
 }
 
+
+double Interrogazione::avg_hourly (QDate data1, QDate data2, std::string user)
+{
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+
+    std::vector<double> values;
+
+
+    for (size_t i = 0; i < consum_user.size(); i++)
+    {
+        //Inserisco i valori compresi tra le due date
+        QDate nuovo(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);
+     if(data1<=nuovo && data2>=nuovo){
+     values.push_back(consum_user[i]->get_consumption());
+     }
+}
+
+    double avg_hourly = values[0];
+
+
+    for (size_t i = 1; i<values.size(); i++)
+    {
+        avg_hourly += values[i];
+        avg_hourly = avg_hourly/2;
+    }
+
+
+return avg_hourly;
+}
 

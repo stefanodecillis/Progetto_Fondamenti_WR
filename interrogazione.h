@@ -17,6 +17,7 @@ public:
     explicit Interrogazione(QWidget *parent = 0);
     ~Interrogazione();
     static double total_consumption(QDate data1, QDate data2, std::string user);
+    static double avg_hourly (QDate data1, QDate data2, std::string user);
 private slots:
     void on_Return_clicked();
     void on_calendarWidget_clicked(const QDate &date);
