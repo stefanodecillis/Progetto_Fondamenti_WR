@@ -114,14 +114,15 @@ void Interrogazione::on_Find_clicked()
 
         QDate data1 = this->date1;
         //qDebug()<<data1;
-         QDate data2 = this->date2;
-         //qDebug()<<data2;
-
-          double totalcons = total_consumption(data1,data2,ui->Find_user->text().toStdString());
-          double avg_hour = avg_hourly(data1,data2,ui->Find_user->text().toStdString());
-          ui->setHere_hour->setText(QString::number(avg_hour));
-ui->setHere_tot->setText(QString::number(totalcons));
-        qDebug()<<QString::number(totalcons);
+        QDate data2 = this->date2;
+        //qDebug()<<data2;
+        QString mc = " m³";
+        double totalcons = total_consumption(data1,data2,ui->Find_user->text().toStdString());
+        double avg_hour = avg_hourly(data1,data2,ui->Find_user->text().toStdString());
+        double daily = avg_daily(data1,data2,ui->Find_user->text().toStdString());
+        ui->setHere_hour->setText(QString::number(avg_hour) + mc);
+        ui->setHere_tot->setText(QString::number(totalcons) + mc);
+        ui->setHere_daily->setText(QString::number(daily) + mc);
     }else{
         QMessageBox msgBox;
         msgBox.setText("DATI NON VALIDI");//non ho id e data corretta
@@ -133,18 +134,6 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
 {
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-   /*
-    tm begin;
-    tm end;
-
-    begin.tm_year = data1.year();
-    begin.tm_mon = data1.month();
-    begin.tm_mday = data1.daysInMonth();
-    end.tm_year = data2.year();
-    end.tm_mon = data2.month();
-    end.tm_mday = data2.daysInMonth();
-    */
-
     std::vector<double> values;
 
      qDebug()<<"grandezza vector"<<QString::number(consum_user.size());
@@ -183,10 +172,10 @@ double Interrogazione::avg_hourly (QDate data1, QDate data2, std::string user)
     {
         //Inserisco i valori compresi tra le due date
         QDate nuovo(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);
-     if(data1<=nuovo && data2>=nuovo){
-     values.push_back(consum_user[i]->get_consumption());
-     }
-}
+        if(data1<=nuovo && data2>=nuovo){
+            values.push_back(consum_user[i]->get_consumption());
+        }
+    }
 
     double avg_hourly = values[0];
 
@@ -194,10 +183,45 @@ double Interrogazione::avg_hourly (QDate data1, QDate data2, std::string user)
     for (size_t i = 1; i<values.size(); i++)
     {
         avg_hourly += values[i];
-        avg_hourly = avg_hourly/2;
     }
+   avg_hourly= avg_hourly/values.size();
 
 
 return avg_hourly;
 }
 
+double Interrogazione::avg_daily (QDate data1, QDate data2, std::string user)
+{
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
+    std::vector<double> values;    //inizializzo un vettore
+    double tot = 0;     //variabile di apppoggio consumi
+
+    for (size_t i = 0; i < consum_user.size(); i++)
+    {
+        QDate consum_date(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);  //creo una QDate per usufruire delle sue funzioni stardard
+        if (consum_date <= data2 && consum_date >= data1) //se la mia data è compresa tra le date indicate
+        {
+           if (consum_user[i+1]->get_data().tm_mday != consum_date.daysInMonth() || consum_user[i+1]->get_data().tm_mon != consum_date.month())
+           {
+               tot+= consum_user[i]->get_consumption();                //se cambia giorno allora salva il consumo giornaliero nel vettore values e azzera il valore di tot per il prossimo giorno
+               values.push_back(tot);
+               tot = 0;
+           }
+           else
+           {
+               tot+= consum_user[i]->get_consumption();        //altrimenti continua a calcolarti il consumo massimo giornaliero
+           }
+        }
+    }
+
+    double avg_daily = values[0];
+    for (size_t i = 1; i < values.size(); i++)
+    {
+        avg_daily += values[i];   //somma tutti i valori del vettore
+        qDebug() << values[i] << "  " ;                    //ATTENZIONE QUI !!!! <--- LEGGE TROPPI VALORI
+    }
+
+    avg_daily = avg_daily /values.size();  //dividi per calcolarti la media
+   return avg_daily;
+}
