@@ -117,12 +117,46 @@ void Interrogazione::on_Find_clicked()
         QDate data2 = this->date2;
         //qDebug()<<data2;
         QString mc = " m³";
+        int diff = data1.daysTo(data2);  //conosco i giorni di distanza tra le due date
         double totalcons = total_consumption(data1,data2,ui->Find_user->text().toStdString());
-        double avg_hour = avg_hourly(data1,data2,ui->Find_user->text().toStdString());
-        double daily = avg_daily(data1,data2,ui->Find_user->text().toStdString());
+        double avg_hour = avg_hourly(data1,data2,ui->Find_user->text().toStdString());    //inizializzo media oraria e totale poiché le avremo in ogni caso
         ui->setHere_hour->setText(QString::number(avg_hour) + mc);
         ui->setHere_tot->setText(QString::number(totalcons) + mc);
-        ui->setHere_daily->setText(QString::number(daily) + mc);
+        if(diff > 0)   //Se abbiamo piu di un giorno, dobbiamo inserire una media giornaliera
+        {
+         double daily = avg_daily(data1,data2,ui->Find_user->text().toStdString());
+         ui->setHere_daily->show();
+         ui->Avg_daily->show();
+         ui->setHere_daily->setText(QString::number(daily) + mc);
+        }
+        else {
+            ui->setHere_daily->hide();   //Nascondo nel caso non mi servano
+            ui->Avg_daily->hide();
+        }
+        if(diff >= 7)
+        {
+            double weekly = avg_weekly(data1,data2,ui->Find_user->text().toStdString());
+            ui->Avg_week->show();
+            ui->setHere_week->show();
+            ui->setHere_week->setText(QString::number(weekly) + mc);
+        }
+        else
+        {
+            ui->setHere_week->hide();
+            ui->Avg_week->hide();
+        }
+        if (diff > 30)
+        {
+            double monthly = avg_monthly(data1,data2,ui->Find_user->text().toStdString());
+            ui->setHere_month->show();
+            ui->Avg_month->show();
+            ui->setHere_month->setText(QString::number(monthly) + mc);
+        }
+        else
+        {
+            ui->setHere_month->hide();
+            ui->Avg_month->hide();
+        }
     }else{
         QMessageBox msgBox;
         msgBox.setText("DATI NON VALIDI");//non ho id e data corretta
@@ -194,34 +228,69 @@ double Interrogazione::avg_daily (QDate data1, QDate data2, std::string user)
 {
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
-    std::vector<double> values;    //inizializzo un vettore
-    double tot = 0;     //variabile di apppoggio consumi
+
+    double avg_daily = 0;     //variabile di apppoggio consumi
+    int diff=data1.daysTo(data2);
+
+
 
     for (size_t i = 0; i < consum_user.size(); i++)
     {
-        QDate consum_date(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);  //creo una QDate per usufruire delle sue funzioni stardard
-        if (consum_date <= data2 && consum_date >= data1) //se la mia data è compresa tra le date indicate
-        {
-           if (consum_user[i+1]->get_data().tm_mday != consum_date.daysInMonth() || consum_user[i+1]->get_data().tm_mon != consum_date.month())
-           {
-               tot+= consum_user[i]->get_consumption();                //se cambia giorno allora salva il consumo giornaliero nel vettore values e azzera il valore di tot per il prossimo giorno
-               values.push_back(tot);
-               tot = 0;
-           }
-           else
-           {
-               tot+= consum_user[i]->get_consumption();        //altrimenti continua a calcolarti il consumo massimo giornaliero
-           }
+        QDate currentdate(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);
+
+        if(data1<=currentdate && data2>=currentdate){
+
+           avg_daily+=consum_user[i]->get_consumption();
+        }
+
+    }
+
+return (avg_daily=avg_daily/diff);
+}
+
+double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
+{
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
+
+    double avg_weekly = 0;     //variabile di apppoggio consumi
+    int diff=data1.daysTo(data2);
+    diff = diff / 7;
+
+
+
+    for (size_t i = 0; i < consum_user.size(); i++)
+    {
+        QDate currentdate(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);
+
+        if(data1<=currentdate && data2>=currentdate){
+
+           avg_weekly+=consum_user[i]->get_consumption();
+        }
+
+    }
+
+return (avg_weekly=avg_weekly/diff);
+}
+
+double Interrogazione::avg_monthly (QDate data1,QDate data2, std::string user)
+{
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
+
+    double avg_month = 0;     //variabile di apppoggio consumi
+    int diff=data1.daysTo(data2);
+    diff = diff / 30; //utilizzo 30 come numero medio di giorni nei mesi
+
+    for (size_t i = 0; i < consum_user.size(); i++)
+    {
+        QDate currentdate(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);
+
+        if(data1<=currentdate && data2>=currentdate){
+
+           avg_month+=consum_user[i]->get_consumption();
         }
     }
 
-    double avg_daily = values[0];
-    for (size_t i = 1; i < values.size(); i++)
-    {
-        avg_daily += values[i];   //somma tutti i valori del vettore
-        qDebug() << values[i] << "  " ;                    //ATTENZIONE QUI !!!! <--- LEGGE TROPPI VALORI
-    }
-
-    avg_daily = avg_daily /values.size();  //dividi per calcolarti la media
-   return avg_daily;
+   return (avg_month = avg_month / diff);
 }
