@@ -230,7 +230,7 @@ double Interrogazione::avg_daily (QDate data1, QDate data2, std::string user)
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
 
     double avg_daily = 0;     //variabile di apppoggio consumi
-    int diff=data1.daysTo(data2);
+    int diff=data1.daysTo(data2) + 1; //Esempio: se ci troviamo nello stesso giorno, dobbiamo poter dividere per uno mentre se sono due giorni, il numero da dividere sarà due e non uno
 
 
 
@@ -254,7 +254,7 @@ double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
 
     double avg_weekly = 0;     //variabile di apppoggio consumi
-    int diff=data1.daysTo(data2);
+    int diff=data1.daysTo(data2) + 1;
     diff = diff / 7;
 
 
@@ -279,8 +279,8 @@ double Interrogazione::avg_monthly (QDate data1,QDate data2, std::string user)
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
 
     double avg_month = 0;     //variabile di apppoggio consumi
-    int diff=data1.daysTo(data2);
-    diff = diff / 30; //utilizzo 30 come numero medio di giorni nei mesi
+    int diff=data1.daysTo(data2)+1;
+    //diff = diff / 30; //utilizzo 30 come numero medio di giorni nei mesi
 
     for (size_t i = 0; i < consum_user.size(); i++)
     {
@@ -292,5 +292,5 @@ double Interrogazione::avg_monthly (QDate data1,QDate data2, std::string user)
         }
     }
 
-   return (avg_month = avg_month / diff);
+   return ((avg_month = avg_month / diff)*30);
 }
