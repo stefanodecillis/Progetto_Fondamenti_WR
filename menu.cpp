@@ -13,6 +13,8 @@ Menu::Menu(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Menu)
 {
+
+
     ui->setupUi(this);
 }
 
@@ -28,10 +30,13 @@ void Menu::on_button1_clicked()//visualizzazione
     this->close();
 }
 void Menu::setValue(QString str){ //stampa quello passato dal sender, qui esplicito un nome della variabile
+    /*
     QMessageBox msgBox;
-   Struttura_dati::FilePath =str;//salvo nella classe con membri static
+
     msgBox.setText(str);//vedo url pasato
     msgBox.exec();
+    */
+     Struttura_dati::FilePath =str;//salvo nella classe con membri static
     //poi riempio la mappa
     input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString());
 // mi salvo gli id presenti nella mappa*

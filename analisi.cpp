@@ -12,6 +12,8 @@ Analisi::Analisi(QWidget *parent) :
     ui(new Ui::Analisi)
 {
     ui->setupUi(this);
+    setMaximumSize(681,468);//dimensione fissa
+    setMinimumSize(681,468);
 }
 
 Analisi::~Analisi()
@@ -47,7 +49,7 @@ void Analisi::on_button_dati_clicked()
             //niente.
         }else{//stampa
         for(int i=0;i<temp.size();i++){
-
+//ui->list_devianti->addItem(QString::fromStdString(temp2));
 ui->list_perdite->addItem(QString::fromStdString("ID ")+QString::fromStdString(temp2)+"  Data: "+temp[i].toString("yyyy.MM.dd"));
 }
         }

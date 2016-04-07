@@ -54,7 +54,7 @@ void Interrogazione::on_calendarWidget_clicked(const QDate &date)
     }else if(count==1){ //faccio il controllo se la prima data è minore della seconda
         if(date1>date){//errore selezione dato..rifalla
             QMessageBox msgBox;
-            msgBox.setText("errore inserimento dato..perchè la data due<data1");
+            msgBox.setText("Errore! Data2<Data1");
             msgBox.exec();
         }else{
             this->date2=date;
@@ -67,8 +67,9 @@ void Interrogazione::on_calendarWidget_clicked(const QDate &date)
         }
     }else{
         //non inserisco piu dati..fino alla prossima interrogazione
+
         QMessageBox msgBox;
-        msgBox.setText("adesso i dati sono validi!");//ricordo di settare il contatore
+        msgBox.setText("Per Inserire un nuovo intervallo, fare Reset");//ricordo di settare il contatore
         msgBox.exec();
     }
 //qDebug()<<date;
@@ -107,9 +108,10 @@ void Interrogazione::on_Find_clicked()
 {
     //se il dato input è valido e le date sono valide
     if(this->input_codice_cliente==true&&this->date1.isValid()&&this->date2.isValid()){
-        QMessageBox msgBox;
+
+        /*QMessageBox msgBox;
         msgBox.setText("DATI VALIDI");//ho id e data corretta
-        msgBox.exec();
+        msgBox.exec();*/
 
 
         QDate data1 = this->date1;
@@ -170,7 +172,7 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
     std::vector<double> values;
 
-     qDebug()<<"grandezza vector"<<QString::number(consum_user.size());
+     //qDebug()<<"grandezza vector"<<QString::number(consum_user.size());
     for (size_t i = 0; i < consum_user.size(); i++)
     {
         //Inserisco i valori compresi tra le due date
@@ -181,7 +183,7 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
 }
 
    // double avg_hourly = values[0];
-     qDebug()<<"grandezza vector piccolo"<<QString::number(values.size());
+     //qDebug()<<"grandezza vector piccolo"<<QString::number(values.size());
     double total_consumption=0;
     for (size_t i = 0; i<values.size(); i++)
     {

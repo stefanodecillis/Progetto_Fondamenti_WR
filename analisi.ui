@@ -10,6 +10,18 @@
     <height>468</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>681</width>
+    <height>468</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>681</width>
+    <height>468</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -23,6 +35,12 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
      <string>Utenze con possibili perdite</string>
     </property>
@@ -35,6 +53,12 @@
       <width>141</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>Utenze devianti</string>
@@ -66,9 +90,9 @@
    <widget class="QLabel" name="label_threshold">
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>550</x>
       <y>50</y>
-      <width>111</width>
+      <width>81</width>
       <height>16</height>
      </rect>
     </property>
@@ -79,9 +103,9 @@
    <widget class="QPushButton" name="exit_button">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>410</y>
-      <width>121</width>
+      <x>530</x>
+      <y>400</y>
+      <width>111</width>
       <height>24</height>
      </rect>
     </property>
