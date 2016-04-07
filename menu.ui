@@ -42,7 +42,7 @@
      <item row="2" column="0">
       <widget class="QPushButton" name="button3">
        <property name="text">
-        <string>Sticazzi</string>
+        <string>Analisi Consumi </string>
        </property>
       </widget>
      </item>

@@ -5,6 +5,7 @@
 #include<qmessagebox.h>
 #include<input_file.h>
 #include <interrogazione.h>
+#include <analisi.h>
 
 
 
@@ -44,6 +45,13 @@ std::vector<std::string>indici;
 void Menu::on_button2_clicked()//visualizzazione
 {
     Interrogazione* t= new Interrogazione();//apro la nuova form di vusalizzazione e chiudo la corrente
+    t->show();
+    this->close();
+}
+
+void Menu::on_button3_clicked()
+{
+    Analisi* t = new Analisi(); //apro analisi
     t->show();
     this->close();
 }
