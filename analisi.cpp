@@ -48,7 +48,7 @@ void Analisi::on_button_dati_clicked()
         }else{//stampa
         for(int i=0;i<temp.size();i++){
 
-ui->list_perdite->addItem(QString::fromStdString(temp2)+"-"+temp[i].toString("yyyy.MM.dd"));
+ui->list_perdite->addItem(QString::fromStdString("ID ")+QString::fromStdString(temp2)+"  Data: "+temp[i].toString("yyyy.MM.dd"));
 }
         }
 
