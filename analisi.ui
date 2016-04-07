@@ -14,26 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListView" name="listPerdite">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>40</y>
-      <width>441</width>
-      <height>181</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QListView" name="listDevianti">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>260</y>
-      <width>441</width>
-      <height>181</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_perdite">
     <property name="geometry">
      <rect>
@@ -107,6 +87,26 @@
     </property>
     <property name="text">
      <string>Indietro</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="list_perdite">
+    <property name="geometry">
+     <rect>
+      <x>25</x>
+      <y>40</y>
+      <width>451</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="list_devianti">
+    <property name="geometry">
+     <rect>
+      <x>25</x>
+      <y>260</y>
+      <width>451</width>
+      <height>181</height>
+     </rect>
     </property>
    </widget>
   </widget>
