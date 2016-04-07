@@ -13,9 +13,9 @@
 #ifdef OS_WINDOWS
   #define WIN 8
 #else
-  #define WIN 8
+  #define WIN 7   // 7 per UNIX 8 per WINDOWS
 #endif
-//#include<struttura_dati.h>
+
 
 
 drag_drop::drag_drop(QWidget *parent):
