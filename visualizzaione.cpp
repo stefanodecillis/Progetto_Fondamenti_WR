@@ -147,6 +147,7 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
      double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
      std::cout << mino << std::endl;
     //trovo media
+     double tot = consum_max(ui->textbox1->text().toStdString());
     double avg= consum_media(consum_vector);
     double high = (*biggest /10);
    //colori plot
@@ -163,7 +164,7 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
      qDebug()<<consum_tot(consum_vector)<<" totale";
      //setta valori media,max,min
      ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
-     ui->lineEdit->setText(QString::number(consum_tot(consum_vector))+ mc);
+     ui->lineEdit->setText(QString::number(tot)+ mc);
      ui->lineEdit_2->setText(QString::number(avg)+ mc);
     ui->customPlot_2->yAxis->setRange(0,*biggest+ high);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
@@ -227,7 +228,7 @@ void visualizzaione::aggiungi_grafico_3(std::vector<double> const consum_vector)
      qDebug()<<consum_tot(consum_vector)<<" totale";
      //setta valori media,max,min
      ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
-     ui->lineEdit->setText(QString::number(consum_tot(consum_vector))+ mc);
+     ui->lineEdit->setText(QString::number(consum_max(ui->textbox1->text().toStdString()))+ mc);
      ui->lineEdit_2->setText(QString::number(avg)+ mc);
     ui->customPlot_3->yAxis->setRange(0,*biggest);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
@@ -360,8 +361,6 @@ std::vector<double> visualizzaione::monthly(int month, std::string user, int cho
 {
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     month++;
-   if (chosen == 0)
-    {
         int day = 0;
         switch(month)
         {
@@ -393,7 +392,7 @@ std::vector<double> visualizzaione::monthly(int month, std::string user, int cho
           values.push_back(tot);
         }
         return values;
-    }
+
 }
 
 std::vector<double> visualizzaione::daily (int month, int day, std::string user)
@@ -501,3 +500,15 @@ std::vector<double> visualizzaione::weekly (const std::string user, int month)
     return values;
 }
 
+double visualizzaione::consum_max (const std::string user)
+{
+    double tot=0;
+    Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+  for (size_t i = 0; i < consum_user.size(); i++)
+  {
+      tot += consum_user[i]->get_consumption();
+  }
+  return tot;
+
+}

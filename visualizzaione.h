@@ -22,6 +22,7 @@ public:
     static std::vector<double> monthly(int month, std::string user, int chosen);
     static std::vector<double> daily (int month, int day, std::string user);
     static std::vector<double> weekly (const std::string user, int month);
+    static double consum_max (const std::string user);
 
 private slots:
     void on_textbox1_editingFinished();
@@ -39,7 +40,6 @@ private:
     Ui::visualizzaione *ui;
     bool input_codice_cliente=false;
     double totale = 0;
-
 };
 
 #endif // VISUALIZZAIONE_H

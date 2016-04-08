@@ -71,9 +71,7 @@ water_reading::water_reading(std::string time, std::string consum)
        this->data.tm_min = min;
        this->data.tm_sec = sec;
    }
-       /*
-        inserirli nella struct tm
-        */
+
 }
 
 tm water_reading::get_data()
