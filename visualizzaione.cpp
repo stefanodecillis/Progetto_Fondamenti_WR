@@ -301,7 +301,7 @@ void visualizzaione::on_button1_clicked()
             ui->tabWidget->setTabEnabled(2,false);
             std::vector<double> values;
             if(ui->comboBox->currentIndex()==0){//primo caso
-                 values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString(), 0);
+                 values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString());
             }else{//secondo caso
             values = weekly( ui->textbox1->text().toStdString(),ui->comboBox_2->currentIndex()+1);
             }
@@ -357,7 +357,7 @@ double visualizzaione::consum_tot(std::vector<double> user){
    return tot;
 }
 
-std::vector<double> visualizzaione::monthly(int month, std::string user, int chosen)
+std::vector<double> visualizzaione::monthly(int month, std::string user)
 {
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     month++;

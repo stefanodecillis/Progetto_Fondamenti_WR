@@ -19,7 +19,7 @@ public:
     static double consum_media (std::vector<double>user);
     static double consum_min (std::vector<double> user);
     static double consum_tot (std::vector<double> user);
-    static std::vector<double> monthly(int month, std::string user, int chosen);
+    static std::vector<double> monthly(int month, std::string user);
     static std::vector<double> daily (int month, int day, std::string user);
     static std::vector<double> weekly (const std::string user, int month);
     static double consum_max (const std::string user);
