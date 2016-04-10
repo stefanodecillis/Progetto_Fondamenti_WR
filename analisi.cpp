@@ -4,8 +4,10 @@
 #include <vector>
 #include <QDate>
 #include <struttura_dati.h>
-#include<qstring.h>
-#include<qdebug.h>
+#include <water_reading.h>
+#include <qstring.h>
+#include <qdebug.h>
+#include <visualizzaione.h>
 
 Analisi::Analisi(QWidget *parent) :
     QMainWindow(parent),
@@ -92,3 +94,42 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
 
   return loss_consum;
 }
+
+void Analisi::devianze_mensili()
+{
+    std::map<std::string, std::vector<double>> map;
+    std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
+    for (size_t i = 0; i < Struttura_dati::index.size(); i++)
+    {
+        std::vector<double> consum_monthly = visualizzaione::Consumo_tot_per_month(Struttura_dati::index[i]); //acquisto i valori
+        //salvo nella mappa
+        map[Struttura_dati::index[i]] = consum_monthly;
+        //mi salvo la media di questo utente
+        double avg = 0;
+        for (size_t n = 0; n < consum_monthly.size(); n++)
+        {
+            avg += consum_monthly[n];
+        }
+        avg = avg / consum_monthly.size();
+        avg_for_index.push_back(avg);
+    }
+    //ottengo la media mensile complessiva
+    double avg_monthly = 0;
+    for (size_t i = 0; i < avg_for_index.size(); i++)
+    {
+      avg_monthly += avg_for_index[i];
+    }
+    avg_monthly = avg_monthly / avg_for_index.size();
+    //stampo
+    for (size_t i = 0; i< Struttura_dati::index.size(); i++)
+    {
+        for (size_t n = 0; n < map[Struttura_dati::index[i]].size(); n++)
+        {
+            if ( map.at(Struttura_dati::index[i])[n] >= (avg_monthly*2))
+            {
+                //fai stampare a video
+            }
+        }
+    }
+}
+
