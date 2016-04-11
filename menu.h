@@ -2,6 +2,7 @@
 #define MENU_H
 #include <QDialog>
 #include<water_reading.h>
+#include<worker.h>
 
 
 namespace Ui {
@@ -23,6 +24,8 @@ public slots://metodo che riceve la stringa, specificare nella firma solo il tip
     void setValue(QString);
 private:
     Ui::Menu *ui;
+    QThread *thread;
+    Worker *worker;
 };
 
 #endif // MENU_H

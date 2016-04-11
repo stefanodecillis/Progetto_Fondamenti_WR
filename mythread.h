@@ -1,24 +1,112 @@
-//Create a class (ex. myThread) and subclass it to QObject
+
 
 #include <QObject>
 #include <QDebug>
 #include <QThread>
+#include<qtimer>
+#include"QtCore"
+#include"input_file.h"
+#include"water_reading.h"
+#include"struttura_dati.h"
+#include"qmutex.h"
 
-class MyThread : public QObject
+
+class Worker : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  public:
-      explicit MyThread(QObject *parent = 0);
+public slots:
+    void doWork(const QString &parameter) {
+        QString result;
+        /* ... here is the expensive or blocking operation ... */
+        emit resultReady(result);
+    }
 
-      //This passes a reference to the thread and will connect signals and slots
-      //When the thread is started, DoWork will be emmited.
-      void DoSetup(QThread &cThread);
-
-  signals:
-
-  public slots:
-      //
-      void DoWork();
-
+signals:
+    void resultReady(const QString &result);
 };
+
+class Controller : public QObject
+{
+    Q_OBJECT
+    QThread workerThread;
+public:
+    Controller() {
+        Worker *worker = new Worker;
+        worker->moveToThread(&workerThread);
+        connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
+        connect(this, &Controller::operate, worker, &Worker::doWork);
+        connect(worker, &Worker::resultReady, this, &Controller::handleResults);
+        workerThread.start();
+    }
+    ~Controller() {
+        workerThread.quit();
+        workerThread.wait();
+    }
+public slots:
+    void handleResults(const QString &);
+signals:
+    void operate(const QString &);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+class Worker : public QObject
+{
+    Q_OBJECT
+private slots:
+    void onTimeout()
+    {
+        QMutex mutex;
+          mutex.lock();
+
+          mutex.unlock();
+
+        qDebug()<<"Worker:: "<<QThread::currentThreadId();
+        //input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString());
+    }
+};
+
+class Thread : public QThread
+{
+    Q_OBJECT
+
+private:
+    void run()
+    {
+        qDebug()<<"thread n*: "<<currentThreadId();
+
+
+        Worker worker;
+        QTimer timer;
+        connect(&timer, SIGNAL(timeout()), &worker, SLOT(onTimeout()));
+        timer.start(1000);
+this->quit();
+        exec();
+    }
+};*/

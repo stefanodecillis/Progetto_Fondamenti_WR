@@ -36,6 +36,7 @@ start = clock();
     //close file input
     input.close();
     end = clock();
+
     std::cout << "finito!! Tempo impiegato:";
     std::cout << roundf((float(end - start) / CLOCKS_PER_SEC) * 100) / 100 << std::endl;
     return true;

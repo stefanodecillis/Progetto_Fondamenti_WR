@@ -15,7 +15,7 @@ public:
     explicit Analisi(QWidget *parent = 0);
     ~Analisi();
     static std::vector<QDate> get_threshold(std::string user, double threshold);
-    static void devianze_mensili();
+    static void devianze_mensili(Ui::Analisi *ui);
 public slots:
     void on_exit_button_clicked();
 

@@ -6,6 +6,8 @@
 #include<input_file.h>
 #include <interrogazione.h>
 #include <analisi.h>
+#include <QThread>
+#include<worker.h>
 
 
 
@@ -13,9 +15,13 @@ Menu::Menu(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Menu)
 {
-
-
     ui->setupUi(this);
+    thread = new QThread();
+    worker = new Worker();
+    worker->moveToThread(thread);
+    connect(worker, SIGNAL(workRequested()), thread, SLOT(start()));
+    connect(thread, SIGNAL(started()), worker, SLOT(doWork()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()), Qt::DirectConnection);
 }
 
 Menu::~Menu()
@@ -30,21 +36,16 @@ void Menu::on_button1_clicked()//visualizzazione
     this->close();
 }
 void Menu::setValue(QString str){ //stampa quello passato dal sender, qui esplicito un nome della variabile
-    /*
-    QMessageBox msgBox;
 
-    msgBox.setText(str);//vedo url pasato
-    msgBox.exec();
-    */
-     Struttura_dati::FilePath =str;//salvo nella classe con membri static
-    //poi riempio la mappa
-    input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString());
-// mi salvo gli id presenti nella mappa*
-std::vector<std::string>indici;
- for(auto i: Struttura_dati::Wreading){
-    indici.push_back(i.first);
- }
- Struttura_dati::index=indici;//mi tengo copia dei codici cliente presenti.*
+    Struttura_dati::FilePath =str;//salvo nella classe con membri static
+
+    worker->abort();
+    thread->wait();
+    worker->requestWork();
+//qui ci dovrebbe andare la barra che fa aspettare, e bool per vedere se ha finito
+    //solo in quel caso facci andare avanti e permetto di andare avanti
+
+
 }
 
 void Menu::on_button2_clicked()//visualizzazione

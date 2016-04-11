@@ -36,6 +36,7 @@ void Analisi::on_button_dati_clicked()
    {
        //resetto le qlist
        ui->list_perdite->clear();
+        ui->list_devianti->clear();
 
 
        //Lavora
@@ -57,6 +58,9 @@ ui->list_perdite->addItem(QString::fromStdString("ID ")+QString::fromStdString(t
         }
 
        }
+
+devianze_mensili(ui);
+
 
    }//fine if principale
 }
@@ -95,8 +99,11 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
   return loss_consum;
 }
 
-void Analisi::devianze_mensili()
+void Analisi::devianze_mensili(Ui::Analisi *ui)
 {
+
+
+
     std::map<std::string, std::vector<double>> map;
     std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
     for (size_t i = 0; i < Struttura_dati::index.size(); i++)
@@ -128,6 +135,7 @@ void Analisi::devianze_mensili()
             if ( map.at(Struttura_dati::index[i])[n] >= (avg_monthly*2))
             {
                 //fai stampare a video
+                ui->list_devianti->addItem(QString::number(map.at(Struttura_dati::index[i])[n]));
             }
         }
     }
