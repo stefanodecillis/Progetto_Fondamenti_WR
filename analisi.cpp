@@ -135,7 +135,7 @@ void Analisi::devianze_mensili(Ui::Analisi *ui)
             if ( map.at(Struttura_dati::index[i])[n] >= (avg_monthly*2))
             {
                 //fai stampare a video
-                ui->list_devianti->addItem(QString::number(map.at(Struttura_dati::index[i])[n]));
+                ui->list_devianti->addItem(QString::fromStdString(Struttura_dati::index[i])+"-"+QString::number(map.at(Struttura_dati::index[i])[n]));
             }
         }
     }
