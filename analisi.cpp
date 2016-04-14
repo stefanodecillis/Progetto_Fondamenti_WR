@@ -241,7 +241,7 @@ void Analisi::devianze_giornaliere(Ui::Analisi *ui)
                     avg += consum_daily[n];
                 }
                 avg = avg / consum_daily.size();
-                avg_for_index.push_back(avg);
+                avg_for_index.push_back(avg);qDebug() << "STEP 1";
             }
         }
     }
