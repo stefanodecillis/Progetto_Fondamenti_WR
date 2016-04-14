@@ -150,13 +150,51 @@
     <property name="geometry">
      <rect>
       <x>520</x>
-      <y>130</y>
+      <y>330</y>
       <width>121</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
      <string>Ottieni Devianze</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_deviance">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>280</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Mensile</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Settimanale</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Giornaliera</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>260</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Scegli tipo devianza</string>
     </property>
    </widget>
   </widget>
