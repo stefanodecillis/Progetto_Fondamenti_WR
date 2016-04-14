@@ -23,6 +23,8 @@ public slots:
 private slots:
     void on_button_dati_clicked();
 
+    void on_deviance_button_clicked();
+
 private:
     Ui::Analisi *ui;
 };

@@ -253,6 +253,10 @@ std::vector<double> visualizzaione::Consumo_tot_per_month(std::string user){
         }
         values.push_back(tot);
     }
+    if (values.size() == 0)
+    {
+        values.push_back(0);values.push_back(0);values.push_back(0);values.push_back(0); //Se non ho valori, l'utente non ha consumato nulla in questo mese
+    }
 
    return values;
 }
@@ -459,15 +463,15 @@ void visualizzaione::on_comboBox_2_currentIndexChanged(const QString &arg1)
     if(ui->comboBox1->currentText()=="Giornaliero"){//validazione giornaliero
         if(arg1=="Aprile" || arg1=="Giugno" || arg1=="Settembre" || arg1=="Novembre" ){//30
             ui->days->clear();
-            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28"<<"29"<<"30");
+            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28"<<"29"<<"30");
             ui->days->addItems(list);
         }else if(arg1=="Febbraio"){//28
             ui->days->clear();
-            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28");
+            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28");
             ui->days->addItems(list);
         }else{//31
             ui->days->clear();
-            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28"<<"29"<<"30"<<"31");
+            QStringList list=(QStringList()<<"1"<<"2"<<"3"<<"4"<<"5"<<"6"<<"7"<<"8"<<"9"<<"10"<<"11"<<"12"<<"13"<<"14"<<"15"<<"16"<<"17"<<"18"<<"19"<<"20"<<"21"<<"22"<<"23"<<"24"<<"25"<<"26"<<"27"<<"28"<<"29"<<"30"<<"31");
             ui->days->addItems(list);
         }}
 }
@@ -485,17 +489,24 @@ std::vector<double> visualizzaione::weekly (const std::string user, int month)
         {
             consum += vect_user[i]->get_consumption();
              QDate date(2015,month,vect_user[i]->get_data().tm_mday);
-             QDate date2(2015,month,vect_user[i+1]->get_data().tm_mday);
-             if (date.dayOfWeek() == 7 && date2.dayOfWeek() != 7)
+             if (i != vect_user.size()-1)  //controllo se dopo ho un altra lettura (unico metodo per verificare trovato)
              {
-                 values.push_back(consum);
-                 consum = 0;
+                 QDate date2(2015,month,vect_user[i+1]->get_data().tm_mday);
+                 if (date.dayOfWeek() == 7 && date2.dayOfWeek() != 7)
+                 {
+                     values.push_back(consum);
+                     consum = 0;
+                 }
              }
         }
     }
     if(consum != 0)
     {
          values.push_back(consum);
+    }
+    if (values.size() == 0)
+    {
+        values.push_back(0);values.push_back(0);values.push_back(0);values.push_back(0); //Se non ho valori, l'utente non ha consumato nulla in questo mese
     }
     return values;
 }

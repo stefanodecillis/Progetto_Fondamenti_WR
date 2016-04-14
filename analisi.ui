@@ -146,6 +146,19 @@
      <string>m³</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="deviance_button">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>130</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ottieni Devianze</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
