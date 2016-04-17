@@ -39,11 +39,17 @@ void Menu::setValue(QString str){ //stampa quello passato dal sender, qui esplic
 
     Struttura_dati::FilePath =str;//salvo nella classe con membri static
 
-    worker->abort();
-    thread->wait();
-    worker->requestWork();
-//qui ci dovrebbe andare la barra che fa aspettare, e bool per vedere se ha finito
-    //solo in quel caso facci andare avanti e permetto di andare avanti
+        QProgressDialog progress("Caricamento Dati", "Stop", 0, 0,this);
+        progress.setWindowModality(Qt::WindowModal);
+        progress.show();
+        if(!(input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString(),&progress))){
+        }
+
+        std::vector<std::string>indici;
+         for(auto i: Struttura_dati::Wreading){
+            indici.push_back(i.first);
+         }
+         Struttura_dati::index=indici;
 
 
 }

@@ -8,14 +8,22 @@
 #include<QDateTime>
 #include<QDate>
 #include<QTime>
+#include<qprogressdialog.h>
 
 
 
-bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &reading_map,std::string path) {
+bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &reading_map, std::string path, QProgressDialog *loadingwindow) {
     //open file input
     std::ifstream input(path);
 clock_t start, end;
 start = clock();
+ std::string line;
+unsigned long counter=0;
+unsigned long bytes_totali = (allBytes(path)/1000);
+unsigned long bytes_letti = 0;
+loadingwindow->setMaximum(bytes_totali);
+
+
     if(!input.is_open()) {           //
         qDebug() <<  "ERRORE";    // file not found
         QMessageBox msgBox;
@@ -25,12 +33,29 @@ start = clock();
     }
 
     while(!input.eof()) {
-        std::string line;
+
         std::getline(input,line);        // as long as file is not finished, read each line
         if (!fill_in(line,reading_map)){    // open function to check parameters and save them in data structure
             return false;             //check it is valid
         }
+//.. ogni carattere della stringa è un byte
+        if(loadingwindow->wasCanceled()){
+            QMessageBox msgBox;
+            msgBox.setText("E' stato bloccato il caricamento..");
+            msgBox.exec();
+            break;
+            return false;
+        }
+        counter++;
+        if (counter==1000) {
+            bytes_letti = bytes_letti+(line.length());
+            loadingwindow->setValue(bytes_letti);
+             counter=0;
+        }
     }
+
+    //caso finito
+    loadingwindow->setValue(bytes_totali);
 
 
     //close file input
@@ -72,6 +97,14 @@ bool input_file::fill_in(const std::string &line, std::map<std::string, std::vec
     // i'm not deleting this instance cause it will be used throughout this program
     return true;
 }
+
+unsigned long input_file::allBytes(std::string path) {
+    std::ifstream input(path, std::ifstream::ate | std::ifstream::binary);
+    return input.tellg();
+}
+
+
+
 
 
 

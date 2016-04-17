@@ -39,7 +39,7 @@ void Worker::abort()
 void Worker::doWork()
 {
     qDebug()<<"processo iniziato "<<thread()->currentThreadId();
-    input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString());
+   // input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString());
     std::vector<std::string>indici;
      for(auto i: Struttura_dati::Wreading){
         indici.push_back(i.first);
