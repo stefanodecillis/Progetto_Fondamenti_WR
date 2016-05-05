@@ -181,7 +181,11 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
      values.push_back(consum_user[i]->get_consumption());
      }
 }
-
+    if (values.size() == 0)
+    {
+        //Non ci sono letture questo utente
+        return 0;
+    }
    // double avg_hourly = values[0];
      //qDebug()<<"grandezza vector piccolo"<<QString::number(values.size());
     double total_consumption=0;
@@ -213,8 +217,13 @@ double Interrogazione::avg_hourly (QDate data1, QDate data2, std::string user)
         }
     }
 
-    double avg_hourly = values[0];
+    if (values.size() == 0)
+    {
+        //Se non ha valori, torna nulla
+        return 0;
+    }
 
+    double avg_hourly = values[0];
 
     for (size_t i = 1; i<values.size(); i++)
     {
@@ -247,6 +256,12 @@ double Interrogazione::avg_daily (QDate data1, QDate data2, std::string user)
 
     }
 
+    if(avg_daily == 0)
+    {
+        //Se è uguale a zero, ritorna zero
+        return 0;
+    }
+
 return (avg_daily=avg_daily/diff);
 }
 
@@ -256,8 +271,8 @@ double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //ordino il vettore consumi nella mappa
 
     double avg_weekly = 0;     //variabile di apppoggio consumi
-    int diff=data1.daysTo(data2) + 1;
-    diff = diff / 7;
+    int diff=data1.daysTo(data2) + 1;  //differenza giorni tra le due date
+    diff = diff / 7;  //trovo numero settimane
 
 
 
@@ -270,6 +285,12 @@ double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
            avg_weekly+=consum_user[i]->get_consumption();
         }
 
+    }
+
+    if(avg_daily == 0)
+    {
+        //Se è uguale a zero, ritorna zero
+        return 0;
     }
 
 return (avg_weekly=avg_weekly/diff);
