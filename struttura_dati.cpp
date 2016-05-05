@@ -5,6 +5,12 @@ QString Struttura_dati::FilePath="";
 std::map <std::string,std::vector<water_reading*>> Struttura_dati::Wreading;
 std::vector<std::string> Struttura_dati::index;
 
+//temporanee per analisi
+std::map<std::string, std::vector<double>> Struttura_dati::map;
+std::vector<double> Struttura_dati::avg_for_index;    //salvo tutte le medie di tutte le utenze
+
+
+
 
 void Struttura_dati::sort_vect(std::map <std::string, std::vector<water_reading*> > &map, std::string user)
 {

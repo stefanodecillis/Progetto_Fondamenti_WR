@@ -8,6 +8,8 @@
 #include <qstring.h>
 #include <qdebug.h>
 #include <visualizzaione.h>
+#include <QThread>
+#include<worker.h>
 
 Analisi::Analisi(QWidget *parent) :
     QMainWindow(parent),
@@ -16,6 +18,14 @@ Analisi::Analisi(QWidget *parent) :
     ui->setupUi(this);
     setMaximumSize(681,468);//dimensione fissa
     setMinimumSize(681,468);
+
+    thread = new QThread();
+    worker = new Worker();
+    worker->moveToThread(thread);
+    connect(worker, SIGNAL(workRequested()), thread, SLOT(start()));
+    connect(thread, SIGNAL(started()), worker, SLOT(doWork()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()), Qt::DirectConnection);
+    connect(worker, SIGNAL(finished()), this, SLOT(prova()));
 }
 
 Analisi::~Analisi()
@@ -36,39 +46,27 @@ void Analisi::on_button_dati_clicked()
    {
        //resetto le qlist
        ui->list_perdite->clear();
-
-
-
        //Lavora
-
-       for(int i=0;i<Struttura_dati::index.size();i++){//per ogni ID utente presente
+       for(size_t i=0;i<Struttura_dati::index.size();i++){//per ogni ID utente presente
         std::vector<QDate> temp;
         bool ok = false;
-
         temp=get_threshold(Struttura_dati::index.at(i),ui->take_threshold->text().toDouble(&ok));
         std::string temp2=Struttura_dati::index.at(i);
         //stampo nella cosa
         if(temp.size()==0){
             //niente.
         }else{//stampa
-        for(int i=0;i<temp.size();i++){
-//ui->list_devianti->addItem(QString::fromStdString(temp2));
-ui->list_perdite->addItem(QString::fromStdString("ID ")+QString::fromStdString(temp2)+"  Data: "+temp[i].toString("yyyy.MM.dd"));
-}
+        for(size_t i=0;i<temp.size();i++){
+        ui->list_perdite->addItem(QString::fromStdString("ID ")+QString::fromStdString(temp2)+"  Data: "+temp[i].toString("yyyy.MM.dd"));
         }
-
+        }
        }
-
-//devianze_mensili(ui);
-
-
    }//fine if principale
 }
 
+
 std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
 {
-
-
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);   //Sorting
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));   //Acquisto vettore letture
     std::vector<QDate> loss_consum;   //inizializzo vector che conterra le date dei consumi
@@ -90,7 +88,6 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
         //if ((consum_user[i]->get_data().tm_hour >= 6 && consum_user[i]->get_data().tm_hour <= 23) )
         if (consum_user[i]->get_data().tm_hour >= 6 && consum_user[i]->get_data().tm_hour <= 23)
         {
-
            // && consum_user[i]->get_data().tm_mday != consum_user[i+1]->get_data().tm_mday
             lossFound = false;  //Se supera le ore notturne oppure cambia giorno, ripristino tutto
         }
@@ -124,7 +121,11 @@ void Analisi::devianze_mensili(Ui::Analisi *ui)
       avg_monthly += avg_for_index[i];
     }
     avg_monthly = avg_monthly / avg_for_index.size();
+
+
     //stampo
+
+
     for (size_t i = 0; i< Struttura_dati::index.size(); i++)
     {
     bool devianceFound = false;
@@ -157,7 +158,7 @@ void Analisi::devianze_settimanali(Ui::Analisi *ui)
             double avg = 0;
             for (size_t n = 0; n < consum_weekly.size(); n++)
             {
-               map.at(x.first).push_back(consum_weekly[n]);
+                map.at(x.first).push_back(consum_weekly[n]);
                 avg += consum_weekly[n];
             }
             avg = avg / consum_weekly.size();
@@ -205,8 +206,8 @@ void Analisi::on_deviance_button_clicked()
     devianze_giornaliere(ui);
 }
 
-void Analisi::devianze_giornaliere(Ui::Analisi *ui)
-{
+
+/*
     std::map<std::string, std::vector<double>> map;
     std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
     for (std::pair<std::string,std::vector<water_reading*>> x: Struttura_dati::Wreading)
@@ -243,8 +244,11 @@ void Analisi::devianze_giornaliere(Ui::Analisi *ui)
                 avg = avg / consum_daily.size();
                 avg_for_index.push_back(avg);qDebug() << "STEP 1";
             }
+            qDebug() << "STEP in mezzo";
         }
+         qDebug() << "STEP big";
     }
+
     //ottengo la media mensile complessiva
     double avg_weekly = 0;
     for (size_t i = 0; i < avg_for_index.size(); i++)
@@ -262,9 +266,51 @@ void Analisi::devianze_giornaliere(Ui::Analisi *ui)
             {
                 //fai stampare a video
                 QString id = QString::fromStdString(Struttura_dati::index[i]);
+
                 ui->list_devianti->addItem("ID: " + id + " Consumo giornaliero deviante!");
                 devianceFound = true;
             }
         }
     }
+    */
+void Analisi::devianze_giornaliere(Ui::Analisi *ui)
+{
+    //cancello il temporaneo nella struttura dati
+
+Struttura_dati::avg_for_index.clear();
+Struttura_dati::map.clear();
+    worker->requestWork();
+   // ui->list_devianti->addItem("aggiunto nel mentre");
+}
+
+
+void Analisi::prova(){
+    //ottengo la media mensile complessiva
+    double avg_weekly = 0;
+    for (size_t i = 0; i < Struttura_dati::avg_for_index.size(); i++)
+    {
+      avg_weekly += Struttura_dati::avg_for_index[i];
+    }
+    avg_weekly = avg_weekly / Struttura_dati::avg_for_index.size();
+    //stampo
+    for (size_t i = 0; i< Struttura_dati::index.size(); i++)
+    {
+        bool devianceFound = false; //Ci servirà dopo per capire quando ha trovato l'utenza deviante
+        for (size_t n = 0; n < Struttura_dati::map[Struttura_dati::index[i]].size(); n++)
+        {
+            if ( Struttura_dati::map.at(Struttura_dati::index[i])[n] >= (avg_weekly*2) && devianceFound == false)
+            {
+                //fai stampare a video
+                QString id = QString::fromStdString(Struttura_dati::index[i]);
+
+                //ui->list_devianti->addItem("ID: " + id + " Consumo giornaliero deviante!");
+                qDebug() << "ID: " + id + " Consumo giornaliero deviante!";
+                devianceFound = true;
+            }
+        }
+    }
+
+
+
+
 }

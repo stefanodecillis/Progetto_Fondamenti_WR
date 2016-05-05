@@ -9,6 +9,12 @@ class Struttura_dati
 {
 public:
      static std::map <std::string,std::vector<water_reading*>> Wreading;
+//temp per analisi
+    static std::map<std::string, std::vector<double>> map;
+    static std::vector<double> avg_for_index;//salvo tutte le medie di tutte le utenze
+
+
+    //
      static QString FilePath;
      static std::vector<std::string>index;
      static void sort_vect(std::map <std::string, std::vector<water_reading*> > &map, std::string user);

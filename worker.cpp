@@ -8,6 +8,10 @@
 #include<input_file.h>
 #include<struttura_dati.h>
 #include<water_reading.h>
+#include<visualizzaione.h>
+
+
+
 Worker::Worker(QObject *parent) :
     QObject(parent)
 {
@@ -38,13 +42,70 @@ void Worker::abort()
 
 void Worker::doWork()
 {
+
+
+
     qDebug()<<"processo iniziato "<<thread()->currentThreadId();
-   // input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString());
-    std::vector<std::string>indici;
-     for(auto i: Struttura_dati::Wreading){
-        indici.push_back(i.first);
-     }
-     Struttura_dati::index=indici;
+
+  /*  std::map<std::string, std::vector<double>> map;
+    std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
+  */
+
+    for (std::pair<std::string,std::vector<water_reading*>> x: Struttura_dati::Wreading)
+    {
+
+      Struttura_dati::map[x.first];
+        for (int month = 1; month <= 12; month++)
+        {
+            int day_count = 0;
+            switch(month)
+            {
+            case 1 : case 3 : case 5 :  case 7 : case 8 : case 10 : case 12:
+                day_count = 31;
+                break;
+            case 2:
+                day_count = 28;
+                break;
+            case 4: case 6 : case 9 : case 11 :
+                day_count = 30;
+                break;
+            default:
+                day_count = 30;
+            }
+            for (int day = 1; day <= day_count; day++)
+            {
+                std::vector<double> consum_daily = visualizzaione::daily(month,day,x.first); //acquisto i valori
+                //salvo nella mappa
+                //mi salvo la media di questo utente
+                double avg = 0;
+                for (size_t n = 0; n < consum_daily.size(); n++)
+                {
+                   Struttura_dati::map.at(x.first).push_back(consum_daily[n]);
+                    avg += consum_daily[n];
+                }
+                avg = avg / consum_daily.size();
+                Struttura_dati::avg_for_index.push_back(avg);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     mutex.lock();
     _working = false;
     mutex.unlock();
