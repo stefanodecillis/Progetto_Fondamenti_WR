@@ -51,15 +51,17 @@ void Analisi::on_button_dati_clicked()
         std::vector<QDate> temp;
         bool ok = false;
         temp=get_threshold(Struttura_dati::index.at(i),ui->take_threshold->text().toDouble(&ok));
-        std::string temp2=Struttura_dati::index.at(i);
         //stampo nella cosa
         if(temp.size()==0){
             //niente.
         }else{//stampa
         for(size_t i=0;i<temp.size();i++){
-        ui->list_perdite->addItem(QString::fromStdString("ID ")+QString::fromStdString(temp2)+"  Data: "+temp[i].toString("yyyy.MM.dd"));
+        ui->list_perdite->addItem("ID "+QString::fromStdString(Struttura_dati::index.at(i))+"  Data: "+temp[i].toString("yyyy.MM.dd"));
         }
         }
+        temp.clear();
+        temp.shrink_to_fit();
+
        }
    }//fine if principale
 }
@@ -83,6 +85,7 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
                 QDate data(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday); //creo QDate
 
                 loss_consum.push_back(data); //inserisco QDate nel vector
+
             }
         }
         //if ((consum_user[i]->get_data().tm_hour >= 6 && consum_user[i]->get_data().tm_hour <= 23) )
@@ -91,6 +94,7 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
            // && consum_user[i]->get_data().tm_mday != consum_user[i+1]->get_data().tm_mday
             lossFound = false;  //Se supera le ore notturne oppure cambia giorno, ripristino tutto
         }
+
     }
 
   return loss_consum;

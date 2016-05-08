@@ -47,13 +47,8 @@ void Worker::doWork()
 
     qDebug()<<"processo iniziato "<<thread()->currentThreadId();
 
-  /*  std::map<std::string, std::vector<double>> map;
-    std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
-  */
-
-    for (std::pair<std::string,std::vector<water_reading*>> x: Struttura_dati::Wreading)
+    for (auto x: Struttura_dati::Wreading)
     {
-
       Struttura_dati::map[x.first];
         for (int month = 1; month <= 12; month++)
         {
@@ -72,39 +67,26 @@ void Worker::doWork()
             default:
                 day_count = 30;
             }
+
             for (int day = 1; day <= day_count; day++)
             {
-                std::vector<double> consum_daily = visualizzaione::daily(month,day,x.first); //acquisto i valori
+                std::vector<double>consum_daily = visualizzaione::daily(month,day,x.first); //acquisto i valori
                 //salvo nella mappa
                 //mi salvo la media di questo utente
                 double avg = 0;
                 for (size_t n = 0; n < consum_daily.size(); n++)
                 {
-                   Struttura_dati::map.at(x.first).push_back(consum_daily[n]);
-                    avg += consum_daily[n];
+                   Struttura_dati::map.at(x.first).push_back(consum_daily.at(n));
+                    avg += consum_daily.at(n);
                 }
                 avg = avg / consum_daily.size();
                 Struttura_dati::avg_for_index.push_back(avg);
+                consum_daily.clear();
+                consum_daily.shrink_to_fit();
+               //std::vector<double>().swap(consum_daily);
             }
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }//for tutti i mesi
+    }//for mappa
 
     mutex.lock();
     _working = false;
