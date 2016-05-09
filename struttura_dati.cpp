@@ -35,4 +35,13 @@ bool Struttura_dati::sort_function(water_reading* a, water_reading* b)
     return *a<*b;
 }
 
+void Struttura_dati::deinit_score_ranges (std::vector<water_reading *> &vect_toDelete)
+{
+    for (size_t i = vect_toDelete.size(); i > 0; i--)
+    {
+        delete vect_toDelete[i-1]; //Elimino tutti gli oggetti allocati in memoria
+        vect_toDelete[i-1] = nullptr; //punto a nessuna aerea di memoria
+    }
+    //Ricordati di fare il .clear() del vettore dopo questo metodo
+}
 

@@ -181,6 +181,8 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
      values.push_back(consum_user[i]->get_consumption());
      }
 }
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
     if (values.size() == 0)
     {
         //Non ci sono letture questo utente
@@ -216,7 +218,8 @@ double Interrogazione::avg_hourly (QDate data1, QDate data2, std::string user)
             values.push_back(consum_user[i]->get_consumption());
         }
     }
-
+Struttura_dati::deinit_score_ranges(consum_user);
+consum_user.clear();
     if (values.size() == 0)
     {
         //Se non ha valori, torna nulla
@@ -255,7 +258,8 @@ double Interrogazione::avg_daily (QDate data1, QDate data2, std::string user)
         }
 
     }
-
+   Struttura_dati::deinit_score_ranges(consum_user);
+   consum_user.clear();
     if(avg_daily == 0)
     {
         //Se è uguale a zero, ritorna zero
@@ -287,7 +291,10 @@ double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
 
     }
 
-    if(avg_daily == 0)
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
+
+    if(avg_weekly == 0)
     {
         //Se è uguale a zero, ritorna zero
         return 0;
@@ -314,6 +321,8 @@ double Interrogazione::avg_monthly (QDate data1,QDate data2, std::string user)
            avg_month+=consum_user[i]->get_consumption();
         }
     }
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
 
    return ((avg_month = avg_month / diff)*30);
 }

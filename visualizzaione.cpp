@@ -257,7 +257,8 @@ std::vector<double> visualizzaione::Consumo_tot_per_month(std::string user){
     {
         values.push_back(0);values.push_back(0);values.push_back(0);values.push_back(0); //Se non ho valori, l'utente non ha consumato nulla in questo mese
     }
-
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
    return values;
 }
 
@@ -395,6 +396,8 @@ std::vector<double> visualizzaione::monthly(int month, std::string user)
             }
           values.push_back(tot);
         }
+        Struttura_dati::deinit_score_ranges(consum_user);
+        consum_user.clear();
         return values;
 
 }
@@ -419,6 +422,8 @@ std::vector<double> visualizzaione::daily (int month, int day, std::string user)
        values.push_back(tot);
        tot = 0;
     }
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
     return values;
 }
 
@@ -508,6 +513,8 @@ std::vector<double> visualizzaione::weekly (const std::string user, int month)
     {
         values.push_back(0);values.push_back(0);values.push_back(0);values.push_back(0); //Se non ho valori, l'utente non ha consumato nulla in questo mese
     }
+    Struttura_dati::deinit_score_ranges(vect_user);
+    vect_user.clear();
     return values;
 }
 
@@ -520,6 +527,8 @@ double visualizzaione::consum_max (const std::string user)
   {
       tot += consum_user[i]->get_consumption();
   }
+  Struttura_dati::deinit_score_ranges(consum_user);
+  consum_user.clear();
   return tot;
 
 }

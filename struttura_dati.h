@@ -20,6 +20,7 @@ public:
      static void sort_vect(std::map <std::string, std::vector<water_reading*> > &map, std::string user);
      static std::vector<water_reading*> score_ranges(std::vector<water_reading*> vect_user);
      static bool sort_function(water_reading* a, water_reading* b);
+     static void deinit_score_ranges (std::vector<water_reading*> &vect_toDelete);
 };
 
 #endif // STRUTTURA_DATI_H

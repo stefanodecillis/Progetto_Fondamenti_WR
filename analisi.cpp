@@ -97,6 +97,11 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
 
     }
 
+   for (size_t i = consum_user.size()  ; i>0;i--)
+   {
+       delete consum_user[i-1];
+   }
+
   return loss_consum;
 }
 
@@ -144,6 +149,7 @@ void Analisi::devianze_mensili(Ui::Analisi *ui)
             }
         }
     }
+    map.clear();
 }
 
 
@@ -191,6 +197,8 @@ void Analisi::devianze_settimanali(Ui::Analisi *ui)
             }
         }
     }
+    map.clear();
+    avg_for_index.clear();
 }
 
 
@@ -279,6 +287,7 @@ void Analisi::on_deviance_button_clicked()
     */
 void Analisi::devianze_giornaliere(Ui::Analisi *ui)
 {
+
     //cancello il temporaneo nella struttura dati
 
 Struttura_dati::avg_for_index.clear();
@@ -312,6 +321,8 @@ void Analisi::prova(){
                 devianceFound = true;
             }
         }
+        Struttura_dati::map.clear();
+        Struttura_dati::avg_for_index.clear();
     }
 
 

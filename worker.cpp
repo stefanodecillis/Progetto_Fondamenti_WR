@@ -86,7 +86,7 @@ void Worker::doWork()
                //std::vector<double>().swap(consum_daily);
             }
         }//for tutti i mesi
-    }//for mappa
+    }//for id
 
     mutex.lock();
     _working = false;
