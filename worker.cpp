@@ -83,7 +83,7 @@ void Worker::doWork()
                 Struttura_dati::avg_for_index.push_back(avg);
                 consum_daily.clear();
                 consum_daily.shrink_to_fit();
-               //std::vector<double>().swap(consum_daily);
+
             }
         }//for tutti i mesi
     }//for id
