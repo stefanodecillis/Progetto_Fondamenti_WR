@@ -12,14 +12,14 @@ visualizzaione::visualizzaione(QWidget *parent):
     ui(new Ui::visualizzaione)
 {
     ui->setupUi(this);
-ui->label_7->setVisible(false);
-ui->comboBox->setVisible(false);
-ui ->days->setVisible(false);
-ui->giorno->setVisible(false);
+    ui->label_7->setVisible(false);
+    ui->comboBox->setVisible(false);
+    ui ->days->setVisible(false);
+    ui->giorno->setVisible(false);
 
-ui->label_8->setVisible(false);
-ui->comboBox_2->setVisible(false);
-ui->customPlot->hide();
+    ui->label_8->setVisible(false);
+    ui->comboBox_2->setVisible(false);
+    ui->customPlot->hide();
 
 }
 
@@ -35,7 +35,7 @@ void visualizzaione::aggiungi_grafico(std::vector<double> const consum_vector){/
     //N.B il numero y lo setto dopo con il
     ui->customPlot->yAxis->setPadding(3); // spazio la
     ui->customPlot->yAxis->grid()->setSubGridVisible(true);
-     // Add data:
+    // Add data:
     QVector<double>regenData;
     QVector<double> ticks;
     QVector<QString> labels;
@@ -57,8 +57,8 @@ void visualizzaione::aggiungi_grafico(std::vector<double> const consum_vector){/
 
     default:
         for(size_t i=1;i<=consum_vector.size();i++){
-           ticks<< i;
-           labels<< QString::number(i);
+            ticks<< i;
+            labels<< QString::number(i);
         }
         break;
     }
@@ -71,19 +71,19 @@ void visualizzaione::aggiungi_grafico(std::vector<double> const consum_vector){/
     ui->customPlot->xAxis->setRange(0, consum_vector.size()+1);//numero colonne+1
 
     QCPBars *regen2 = new QCPBars(ui->customPlot->xAxis, ui->customPlot->yAxis);
-     ui->customPlot->addPlottable(regen2);
+    ui->customPlot->addPlottable(regen2);
 
     for(size_t i=0;i<consum_vector.size();i++){
-    regenData<<consum_vector.at(i);
+        regenData<<consum_vector.at(i);
     }
 
     //ricorda setto coordinate max y .
     auto biggest = std::max_element(std::begin(consum_vector), std::end(consum_vector));
-     double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
-     std::cout << mino << std::endl;
+    double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
+    std::cout << mino << std::endl;
     //trovo media
     double avg= consum_media(consum_vector);
-   //colori plot
+    //colori plot
     QPen pen;
     QString mc = "m³";
     pen.setWidth(1.2);
@@ -91,14 +91,14 @@ void visualizzaione::aggiungi_grafico(std::vector<double> const consum_vector){/
     regen2->setPen(pen);
     regen2->setBrush(QColor(255,131,0,50));
     qDebug()<<*biggest<<" valore big";
-     qDebug()<<mino<<" valore small";
-     ui->lineEdit_3->setText(QString::number(mino)+mc);
-     qDebug()<<avg<<" media";
-     qDebug()<<consum_tot(consum_vector)<<" totale";
-     //setta valori media,max,min
-     ui->lineEdit_4->setText(QString::number(*biggest) + mc);
-     ui->lineEdit->setText(QString::number(consum_tot(consum_vector))+mc);
-     ui->lineEdit_2->setText(QString::number(avg)+mc);
+    qDebug()<<mino<<" valore small";
+    ui->lineEdit_3->setText(QString::number(mino)+mc);
+    qDebug()<<avg<<" media";
+    qDebug()<<consum_tot(consum_vector)<<" totale";
+    //setta valori media,max,min
+    ui->lineEdit_4->setText(QString::number(*biggest) + mc);
+    ui->lineEdit->setText(QString::number(consum_tot(consum_vector))+mc);
+    ui->lineEdit_2->setText(QString::number(avg)+mc);
     ui->customPlot->yAxis->setRange(0,*biggest+2);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot->replot();
@@ -127,7 +127,7 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
     for(size_t i=1;i<=consum_vector.size();i++){
         ticks<< i;
         labels<< QString::number(i);
-}
+    }
 
     //aggiungo dati x e y
     ui->customPlot_2->xAxis->setTickVector(ticks);//numero colonne
@@ -136,21 +136,21 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
     ui->customPlot_2->xAxis->setRange(0, consum_vector.size()+1);//numero colonne+1
 
     QCPBars *regen2 = new QCPBars(ui->customPlot_2->xAxis, ui->customPlot_2->yAxis);
-     ui->customPlot_2->addPlottable(regen2);
+    ui->customPlot_2->addPlottable(regen2);
 
     for(size_t i=0;i<consum_vector.size();i++){
-    regenData<<consum_vector.at(i);
+        regenData<<consum_vector.at(i);
     }
 
     //ricorda setto coordinate max y .
     auto biggest = std::max_element(std::begin(consum_vector), std::end(consum_vector));
-     double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
-     std::cout << mino << std::endl;
+    double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
+    std::cout << mino << std::endl;
     //trovo media
-     double tot = consum_max(ui->textbox1->text().toStdString());
+    double tot = consum_max(ui->textbox1->text().toStdString());
     double avg= consum_media(consum_vector);
     double high = (*biggest /10);
-   //colori plot
+    //colori plot
     QString mc = "m³";
     QPen pen;
     pen.setWidth(1.2);
@@ -158,14 +158,14 @@ void visualizzaione::aggiungi_grafico_2(std::vector<double> const consum_vector)
     regen2->setPen(pen);
     regen2->setBrush(QColor(255,190,0,50));
     qDebug()<<*biggest<<" valore big";
-     qDebug()<<mino<<" valore small";
-     ui->lineEdit_3->setText(QString::number(mino)+ mc);
-     qDebug()<<avg<<" media";
-     qDebug()<<consum_tot(consum_vector)<<" totale";
-     //setta valori media,max,min
-     ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
-     ui->lineEdit->setText(QString::number(tot)+ mc);
-     ui->lineEdit_2->setText(QString::number(avg)+ mc);
+    qDebug()<<mino<<" valore small";
+    ui->lineEdit_3->setText(QString::number(mino)+ mc);
+    qDebug()<<avg<<" media";
+    qDebug()<<consum_tot(consum_vector)<<" totale";
+    //setta valori media,max,min
+    ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
+    ui->lineEdit->setText(QString::number(tot)+ mc);
+    ui->lineEdit_2->setText(QString::number(avg)+ mc);
     ui->customPlot_2->yAxis->setRange(0,*biggest+ high);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot_2->replot();
@@ -193,7 +193,7 @@ void visualizzaione::aggiungi_grafico_3(std::vector<double> const consum_vector)
     for(size_t i=1;i<=consum_vector.size();i++){
         ticks<< i;
         labels<< QString::number(i);
-}
+    }
 
     //aggiungo dati x e y
     ui->customPlot_3->xAxis->setTickVector(ticks);//numero colonne
@@ -202,19 +202,19 @@ void visualizzaione::aggiungi_grafico_3(std::vector<double> const consum_vector)
     ui->customPlot_3->xAxis->setRange(0, consum_vector.size()+1);//numero colonne+1
 
     QCPBars *regen2 = new QCPBars(ui->customPlot_3->xAxis, ui->customPlot_3->yAxis);
-     ui->customPlot_3->addPlottable(regen2);
+    ui->customPlot_3->addPlottable(regen2);
 
     for(size_t i=0;i<consum_vector.size();i++){
-    regenData<<consum_vector.at(i);
+        regenData<<consum_vector.at(i);
     }
 
     //ricorda setto coordinate max y .
     auto biggest = std::max_element(std::begin(consum_vector), std::end(consum_vector));
-     double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
-     std::cout << mino << std::endl;
+    double mino = *(std::min_element(std::begin(consum_vector), std::end(consum_vector)));
+    std::cout << mino << std::endl;
     //trovo media
     double avg= consum_media(consum_vector);
-   //colori plot
+    //colori plot
     QString mc = "m³";
     QPen pen;
     pen.setWidth(1.2);
@@ -222,14 +222,14 @@ void visualizzaione::aggiungi_grafico_3(std::vector<double> const consum_vector)
     regen2->setPen(pen);
     regen2->setBrush(QColor(255,190,0,50));
     qDebug()<<*biggest<<" valore big";
-     qDebug()<<mino<<" valore small";
-     ui->lineEdit_3->setText(QString::number(mino)+ mc);
-     qDebug()<<avg<<" media";
-     qDebug()<<consum_tot(consum_vector)<<" totale";
-     //setta valori media,max,min
-     ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
-     ui->lineEdit->setText(QString::number(consum_max(ui->textbox1->text().toStdString()))+ mc);
-     ui->lineEdit_2->setText(QString::number(avg)+ mc);
+    qDebug()<<mino<<" valore small";
+    ui->lineEdit_3->setText(QString::number(mino)+ mc);
+    qDebug()<<avg<<" media";
+    qDebug()<<consum_tot(consum_vector)<<" totale";
+    //setta valori media,max,min
+    ui->lineEdit_4->setText(QString::number(*biggest)+ mc);
+    ui->lineEdit->setText(QString::number(consum_max(ui->textbox1->text().toStdString()))+ mc);
+    ui->lineEdit_2->setText(QString::number(avg)+ mc);
     ui->customPlot_3->yAxis->setRange(0,*biggest);//numeri y range
     regen2->setData(ticks, regenData);//inserisce i valori delle colonne
     ui->customPlot_3->replot();
@@ -259,7 +259,7 @@ std::vector<double> visualizzaione::Consumo_tot_per_month(std::string user){
     }
     Struttura_dati::deinit_score_ranges(consum_user);
     consum_user.clear();
-   return values;
+    return values;
 }
 
 
@@ -306,9 +306,9 @@ void visualizzaione::on_button1_clicked()
             ui->tabWidget->setTabEnabled(2,false);
             std::vector<double> values;
             if(ui->comboBox->currentIndex()==0){//primo caso
-                 values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString());
+                values = monthly(ui->comboBox_2->currentIndex(), ui->textbox1->text().toStdString());
             }else{//secondo caso
-            values = weekly( ui->textbox1->text().toStdString(),ui->comboBox_2->currentIndex()+1);
+                values = weekly( ui->textbox1->text().toStdString(),ui->comboBox_2->currentIndex()+1);
             }
             visualizzaione::aggiungi_grafico_2(values);
 
@@ -321,9 +321,9 @@ void visualizzaione::on_button1_clicked()
             ui->customPlot_2->hide();
             ui->customPlot_3->show();
             QString user = ui->textbox1->text();
-           std::vector<double> values;
-           values = daily(ui->comboBox_2->currentIndex()+1,ui->days->currentIndex()+1,user.toStdString());
-           visualizzaione::aggiungi_grafico_3(values);
+            std::vector<double> values;
+            values = daily(ui->comboBox_2->currentIndex()+1,ui->days->currentIndex()+1,user.toStdString());
+            visualizzaione::aggiungi_grafico_3(values);
 
         }else{
             //non fare nulla, caso default...perchè accetta anche stringa vuota ""
@@ -349,9 +349,9 @@ double visualizzaione::consum_min (std::vector<double> user)
     double min = user.at(0);
     for (size_t i = 0; i < user.size(); i++)
     {
-     if (user.at(i) < min) {
-         min = user.at(i);
-     }
+        if (user.at(i) < min) {
+            min = user.at(i);
+        }
     }
     return min;
 }
@@ -359,46 +359,46 @@ double visualizzaione::consum_min (std::vector<double> user)
 double visualizzaione::consum_tot(std::vector<double> user){
     double tot=0;
     for (size_t i = 0; i < user.size(); i++)tot+=user.at(i);
-   return tot;
+    return tot;
 }
 
 std::vector<double> visualizzaione::monthly(int month, std::string user)
 {
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     month++;
-        int day = 0;
-        switch(month)
+    int day = 0;
+    switch(month)
+    {
+    case 1 : case 3 : case 5 :  case 7 : case 8 : case 10 : case 12:
+        day = 31;
+        break;
+    case 2:
+        day = 28;
+        break;
+    case 4: case 6 : case 9 : case 11 :
+        day = 30;
+        break;
+    default:
+        day = 30;
+    }
+    double tot=0;
+    std::vector<double> values;
+    std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
+    for (int i = 1; i <= day; i++)
+    {
+        tot = 0;
+        for (size_t j = 0; j < consum_user.size(); j++)
         {
-        case 1 : case 3 : case 5 :  case 7 : case 8 : case 10 : case 12:
-            day = 31;
-            break;
-        case 2:
-            day = 28;
-            break;
-        case 4: case 6 : case 9 : case 11 :
-            day = 30;
-            break;
-        default:
-            day = 30;
-        }
-        double tot=0;
-        std::vector<double> values;
-        std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-        for (int i = 1; i <= day; i++)
-        {
-            tot = 0;
-            for (size_t j = 0; j < consum_user.size(); j++)
+            if (consum_user[j]->get_data().tm_mon == month && consum_user[j]->get_data().tm_mday == i)
             {
-                if (consum_user[j]->get_data().tm_mon == month && consum_user[j]->get_data().tm_mday == i)
-                {
-                    tot+= consum_user[j]->get_consumption();
-                }
+                tot+= consum_user[j]->get_consumption();
             }
-          values.push_back(tot);
         }
-        Struttura_dati::deinit_score_ranges(consum_user);
-        consum_user.clear();
-        return values;
+        values.push_back(tot);
+    }
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
+    return values;
 
 }
 
@@ -415,12 +415,12 @@ std::vector<double> visualizzaione::daily (int month, int day, std::string user)
         {
             if (consum_user[i]->get_data().tm_mon == month && consum_user[i]->get_data().tm_mday == day && consum_user[i]->get_data().tm_hour == hh)
             {
-              tot += consum_user[i]->get_consumption();
+                tot += consum_user[i]->get_consumption();
             }
         }
 
-       values.push_back(tot);
-       tot = 0;
+        values.push_back(tot);
+        tot = 0;
     }
     Struttura_dati::deinit_score_ranges(consum_user);
     consum_user.clear();
@@ -493,21 +493,21 @@ std::vector<double> visualizzaione::weekly (const std::string user, int month)
         if (vect_user[i]->get_data().tm_mon == month)
         {
             consum += vect_user[i]->get_consumption();
-             QDate date(2015,month,vect_user[i]->get_data().tm_mday);
-             if (i != vect_user.size()-1)  //controllo se dopo ho un altra lettura (unico metodo per verificare trovato)
-             {
-                 QDate date2(2015,month,vect_user[i+1]->get_data().tm_mday);
-                 if (date.dayOfWeek() == 7 && date2.dayOfWeek() != 7)
-                 {
-                     values.push_back(consum);
-                     consum = 0;
-                 }
-             }
+            QDate date(2015,month,vect_user[i]->get_data().tm_mday);
+            if (i != vect_user.size()-1)  //controllo se dopo ho un altra lettura (unico metodo per verificare trovato)
+            {
+                QDate date2(2015,month,vect_user[i+1]->get_data().tm_mday);
+                if (date.dayOfWeek() == 7 && date2.dayOfWeek() != 7)
+                {
+                    values.push_back(consum);
+                    consum = 0;
+                }
+            }
         }
     }
     if(consum != 0)
     {
-         values.push_back(consum);
+        values.push_back(consum);
     }
     if (values.size() == 0)
     {
@@ -523,12 +523,12 @@ double visualizzaione::consum_max (const std::string user)
     double tot=0;
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
-  for (size_t i = 0; i < consum_user.size(); i++)
-  {
-      tot += consum_user[i]->get_consumption();
-  }
-  Struttura_dati::deinit_score_ranges(consum_user);
-  consum_user.clear();
-  return tot;
+    for (size_t i = 0; i < consum_user.size(); i++)
+    {
+        tot += consum_user[i]->get_consumption();
+    }
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
+    return tot;
 
 }

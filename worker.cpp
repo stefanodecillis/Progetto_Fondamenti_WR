@@ -49,7 +49,7 @@ void Worker::doWork()
 
     for (auto x: Struttura_dati::Wreading)
     {
-      Struttura_dati::map[x.first];
+        Struttura_dati::map[x.first];
         for (int month = 1; month <= 12; month++)
         {
             int day_count = 0;
@@ -76,7 +76,7 @@ void Worker::doWork()
                 double avg = 0;
                 for (size_t n = 0; n < consum_daily.size(); n++)
                 {
-                   Struttura_dati::map.at(x.first).push_back(consum_daily.at(n));
+                    Struttura_dati::map.at(x.first).push_back(consum_daily.at(n));
                     avg += consum_daily.at(n);
                 }
                 avg = avg / consum_daily.size();

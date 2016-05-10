@@ -121,10 +121,10 @@ void Interrogazione::on_Find_clicked()
         ui->setHere_tot->setText(QString::number(totalcons) + mc);
         if(diff > 0)   //Se abbiamo piu di un giorno, dobbiamo inserire una media giornaliera
         {
-         double daily = avg_daily(data1,data2,ui->Find_user->text().toStdString());
-         ui->setHere_daily->show();
-         ui->Avg_daily->show();
-         ui->setHere_daily->setText(QString::number(daily) + mc);
+            double daily = avg_daily(data1,data2,ui->Find_user->text().toStdString());
+            ui->setHere_daily->show();
+            ui->Avg_daily->show();
+            ui->setHere_daily->setText(QString::number(daily) + mc);
         }
         else {
             ui->setHere_daily->hide();   //Nascondo nel caso non mi servano
@@ -171,10 +171,10 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
     {
         //Inserisco i valori compresi tra le due date
         QDate nuovo(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday);
-     if(data1<=nuovo && data2>=nuovo){
-     values.push_back(consum_user[i]->get_consumption());
-     }
-}
+        if(data1<=nuovo && data2>=nuovo){
+            values.push_back(consum_user[i]->get_consumption());
+        }
+    }
     Struttura_dati::deinit_score_ranges(consum_user);
     consum_user.clear();
     if (values.size() == 0)
@@ -189,7 +189,7 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
     }
 
 
-return total_consumption;
+    return total_consumption;
 }
 
 
@@ -209,8 +209,8 @@ double Interrogazione::avg_hourly (QDate data1, QDate data2, std::string user)
             values.push_back(consum_user[i]->get_consumption());
         }
     }
-Struttura_dati::deinit_score_ranges(consum_user);
-consum_user.clear();
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
     if (values.size() == 0)
     {
         //Se non ha valori, torna nulla
@@ -223,10 +223,10 @@ consum_user.clear();
     {
         avg_hourly += values[i];
     }
-   avg_hourly= avg_hourly/values.size();
+    avg_hourly= avg_hourly/values.size();
 
 
-return avg_hourly;
+    return avg_hourly;
 }
 
 double Interrogazione::avg_daily (QDate data1, QDate data2, std::string user)
@@ -245,19 +245,19 @@ double Interrogazione::avg_daily (QDate data1, QDate data2, std::string user)
 
         if(data1<=currentdate && data2>=currentdate){
 
-           avg_daily+=consum_user[i]->get_consumption();
+            avg_daily+=consum_user[i]->get_consumption();
         }
 
     }
-   Struttura_dati::deinit_score_ranges(consum_user);
-   consum_user.clear();
+    Struttura_dati::deinit_score_ranges(consum_user);
+    consum_user.clear();
     if(avg_daily == 0)
     {
         //Se è uguale a zero, ritorna zero
         return 0;
     }
 
-return (avg_daily=avg_daily/diff);
+    return (avg_daily=avg_daily/diff);
 }
 
 double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
@@ -277,7 +277,7 @@ double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
 
         if(data1<=currentdate && data2>=currentdate){
 
-           avg_weekly+=consum_user[i]->get_consumption();
+            avg_weekly+=consum_user[i]->get_consumption();
         }
 
     }
@@ -291,7 +291,7 @@ double Interrogazione::avg_weekly (QDate data1,QDate data2, std::string user)
         return 0;
     }
 
-return (avg_weekly=avg_weekly/diff);
+    return (avg_weekly=avg_weekly/diff);
 }
 
 double Interrogazione::avg_monthly (QDate data1,QDate data2, std::string user)
@@ -308,11 +308,11 @@ double Interrogazione::avg_monthly (QDate data1,QDate data2, std::string user)
 
         if(data1<=currentdate && data2>=currentdate){
 
-           avg_month+=consum_user[i]->get_consumption();
+            avg_month+=consum_user[i]->get_consumption();
         }
     }
     Struttura_dati::deinit_score_ranges(consum_user);
     consum_user.clear();
 
-   return ((avg_month = avg_month / diff)*30);
+    return ((avg_month = avg_month / diff)*30);
 }

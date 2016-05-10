@@ -15,13 +15,13 @@
 bool input_file::read_file(std::map<std::string,std::vector<water_reading*>> &reading_map, std::string path, QProgressDialog *loadingwindow) {
     //open file input
     std::ifstream input(path);
-clock_t start, end;
-start = clock();
- std::string line;
-unsigned long counter=0;
-unsigned long bytes_totali = (allBytes(path)/1000);
-unsigned long bytes_letti = 0;
-loadingwindow->setMaximum(bytes_totali);
+    clock_t start, end;
+    start = clock();
+    std::string line;
+    unsigned long counter=0;
+    unsigned long bytes_totali = (allBytes(path)/1000);
+    unsigned long bytes_letti = 0;
+    loadingwindow->setMaximum(bytes_totali);
 
 
     if(!input.is_open()) {           //
@@ -38,19 +38,19 @@ loadingwindow->setMaximum(bytes_totali);
         if (!fill_in(line,reading_map)){    // open function to check parameters and save them in data structure
             return false;             //check it is valid
         }
-//.. ogni carattere della stringa è un byte
+        //.. ogni carattere della stringa è un byte
         if(loadingwindow->wasCanceled()){
             QMessageBox msgBox;
             msgBox.setText("E' stato bloccato il caricamento..");
             msgBox.exec();
-            break;
+            //  break;
             return false;
         }
         counter++;
         if (counter==1000) {
             bytes_letti = bytes_letti+(line.length());
             loadingwindow->setValue(bytes_letti);
-             counter=0;
+            counter=0;
         }
     }
 

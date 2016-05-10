@@ -19,7 +19,6 @@ Analisi::Analisi(QWidget *parent) :
     setMaximumSize(681,468);//dimensione fissa
     setMinimumSize(681,468);
     timer= new QTimer(this);
-
     thread = new QThread();
     worker = new Worker();
     ui->loading_label->hide();
@@ -45,29 +44,29 @@ void Analisi::on_exit_button_clicked()
 
 void Analisi::on_button_dati_clicked()
 {
-   if (!(ui->take_threshold->text().isEmpty())) //Se non è vuota
-   {
+    if (!(ui->take_threshold->text().isEmpty())) //Se non è vuota
+    {
 
-       //resetto le qlist
-       ui->list_perdite->clear();
-       //Lavora
-       for(size_t i=0;i<Struttura_dati::index.size();i++){//per ogni ID utente presente
-        std::vector<QDate> temp;
-        bool ok = false;
-        temp=get_threshold(Struttura_dati::index.at(i),ui->take_threshold->text().toDouble(&ok));
-        //stampo nella cosa
-        if(temp.size()==0){
-            //niente.
-        }else{//stampa
-        for(size_t j=0;j<temp.size();j++){
-        ui->list_perdite->addItem("ID "+QString::fromStdString(Struttura_dati::index.at(i))+"  Data: "+temp[j].toString("yyyy.MM.dd"));
+        //resetto le qlist
+        ui->list_perdite->clear();
+        //Lavora
+        for(size_t i=0;i<Struttura_dati::index.size();i++){//per ogni ID utente presente
+            std::vector<QDate> temp;
+            bool ok = false;
+            temp=get_threshold(Struttura_dati::index.at(i),ui->take_threshold->text().toDouble(&ok));
+            //stampo nella cosa
+            if(temp.size()==0){
+                //niente.
+            }else{//stampa
+                for(size_t j=0;j<temp.size();j++){
+                    ui->list_perdite->addItem("ID "+QString::fromStdString(Struttura_dati::index.at(i))+"  Data: "+temp[j].toString("yyyy.MM.dd"));
+                }
+            }
+            temp.clear();
+            temp.shrink_to_fit();
         }
-        }
-        temp.clear();
-        temp.shrink_to_fit();
-       }
 
-   }//fine if principale
+    }//fine if principale
 }
 
 
@@ -99,15 +98,15 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
 
     }
 
-   Struttura_dati::deinit_score_ranges(consum_user); //Deinitialize
-   consum_user.clear();
-  return loss_consum;
+    Struttura_dati::deinit_score_ranges(consum_user); //Deinitialize
+    consum_user.clear();
+    return loss_consum;
 }
 
 void Analisi::devianze_mensili(Ui::Analisi *ui)
 {
-   // this->isTerminated=false;
-   // IniziaTimer();
+    // this->isTerminated=false;
+    // IniziaTimer();
     std::map<std::string, std::vector<double>> map;
     std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
     for (size_t i = 0; i < Struttura_dati::index.size(); i++)
@@ -128,7 +127,7 @@ void Analisi::devianze_mensili(Ui::Analisi *ui)
     double avg_monthly = 0;
     for (size_t i = 0; i < avg_for_index.size(); i++)
     {
-      avg_monthly += avg_for_index[i];
+        avg_monthly += avg_for_index[i];
     }
     avg_monthly = avg_monthly / avg_for_index.size();
 
@@ -138,7 +137,7 @@ void Analisi::devianze_mensili(Ui::Analisi *ui)
 
     for (size_t i = 0; i< Struttura_dati::index.size(); i++)
     {
-    bool devianceFound = false;
+        bool devianceFound = false;
         for (size_t n = 0; n < map[Struttura_dati::index[i]].size(); n++)
         {
             if ( map.at(Struttura_dati::index[i])[n] >= (avg_monthly*2) && devianceFound == false)
@@ -161,7 +160,7 @@ void Analisi::devianze_settimanali(Ui::Analisi *ui)
     std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
     for (std::pair<std::string,std::vector<water_reading*>> x: Struttura_dati::Wreading)
     {
-       map[x.first];
+        map[x.first];
         for (int month = 1; month <= 12; month++)
         {
             std::vector<double> consum_weekly = visualizzaione::weekly(x.first,month); //acquisto i valori
@@ -181,7 +180,7 @@ void Analisi::devianze_settimanali(Ui::Analisi *ui)
     double avg_weekly = 0;
     for (size_t i = 0; i < avg_for_index.size(); i++)
     {
-      avg_weekly += avg_for_index[i];
+        avg_weekly += avg_for_index[i];
     }
     avg_weekly = avg_weekly / avg_for_index.size();
     //stampo
@@ -213,13 +212,13 @@ void Analisi::on_deviance_button_clicked()
     {
         IniziaTimer();
         this->isTerminated=false;
-    devianze_mensili(ui);
+        devianze_mensili(ui);
     }
     else if (ui->comboBox_deviance->currentText().toStdString() == "Settimanale")
     {
         IniziaTimer();
         this->isTerminated=false;
-    devianze_settimanali(ui);
+        devianze_settimanali(ui);
     }
     else if (ui->comboBox_deviance->currentText().toStdString() == "Giornaliera"){
         IniziaTimer();
@@ -237,9 +236,9 @@ void Analisi::devianze_giornaliere(Ui::Analisi *ui)
 {
     //cancello il temporaneo nella struttura dati
 
-Struttura_dati::avg_for_index.clear();
-Struttura_dati::map.clear();
-worker->requestWork();
+    Struttura_dati::avg_for_index.clear();
+    Struttura_dati::map.clear();
+    worker->requestWork();
 }
 
 void Analisi::IniziaTimer()
@@ -256,7 +255,7 @@ void Analisi::prova(){
     double avg_weekly = 0;
     for (size_t i = 0; i < Struttura_dati::avg_for_index.size(); i++)
     {
-      avg_weekly += Struttura_dati::avg_for_index[i];
+        avg_weekly += Struttura_dati::avg_for_index[i];
     }
     avg_weekly = avg_weekly / Struttura_dati::avg_for_index.size();
     //stampo
@@ -271,7 +270,7 @@ void Analisi::prova(){
                 QString id = QString::fromStdString(Struttura_dati::index[i]);
 
                 this->ui->list_devianti->addItem("ID: " + id + " Consumo giornaliero deviante!");
-                qDebug() << "ID: " + id + " Consumo giornaliero deviante!";
+                //qDebug() << "ID: " + id + " Consumo giornaliero deviante!";
                 devianceFound = true;
             }
         }
@@ -285,15 +284,15 @@ void Analisi::onTimeOut()
 {
 
     if(this->isTerminated==true){
-      timer->stop();
-      ui->loading_label->setVisible(false);
+        timer->stop();
+        ui->loading_label->setVisible(false);
     }else{
         if(counter%2==0){
-             ui->loading_label->setText("Loading.");
+            ui->loading_label->setText("Loading.");
         }else{
-       ui->loading_label->setText("Loading..");
-}
-counter++;
+            ui->loading_label->setText("Loading..");
+        }
+        counter++;
     }
 
 }

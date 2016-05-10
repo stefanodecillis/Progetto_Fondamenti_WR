@@ -19,7 +19,8 @@ public:
     void dragLeaveEvent(QDragLeaveEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dropEvent(QDropEvent* event);
-
+public slots:
+    void setValue(QString);
 
 private:
     Ui::drag_drop *ui;

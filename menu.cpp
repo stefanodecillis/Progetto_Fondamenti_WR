@@ -8,6 +8,8 @@
 #include <analisi.h>
 #include <QThread>
 #include<worker.h>
+#include<qdebug.h>
+#include<drag_drop.h>
 
 
 
@@ -22,6 +24,7 @@ Menu::Menu(QWidget *parent) :
     connect(worker, SIGNAL(workRequested()), thread, SLOT(start()));
     connect(thread, SIGNAL(started()), worker, SLOT(doWork()));
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()), Qt::DirectConnection);
+
 }
 
 Menu::~Menu()
@@ -35,24 +38,8 @@ void Menu::on_button1_clicked()//visualizzazione
     t->show();
     this->close();
 }
-void Menu::setValue(QString str){ //stampa quello passato dal sender, qui esplicito un nome della variabile
-
-    Struttura_dati::FilePath =str;//salvo nella classe con membri static
-
-        QProgressDialog progress("Caricamento Dati", "Stop", 0, 0,this);
-        progress.setWindowModality(Qt::WindowModal);
-        progress.show();
-        if(!(input_file::read_file(Struttura_dati::Wreading,Struttura_dati::FilePath.toStdString(),&progress))){
-        }
-
-        std::vector<std::string>indici;
-         for(auto i: Struttura_dati::Wreading){
-            indici.push_back(i.first);
-         }
-         Struttura_dati::index=indici;
 
 
-}
 
 void Menu::on_button2_clicked()//visualizzazione
 {

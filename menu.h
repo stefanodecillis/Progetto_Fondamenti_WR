@@ -20,8 +20,7 @@ private slots:
     void on_button1_clicked();
     void on_button2_clicked();
     void on_button3_clicked();
-public slots://metodo che riceve la stringa, specificare nella firma solo il tipo
-    void setValue(QString);
+
 private:
     Ui::Menu *ui;
     QThread *thread;

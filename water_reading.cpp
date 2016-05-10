@@ -13,64 +13,64 @@ water_reading::water_reading (float consumption,tm data):consumption(consumption
 
 water_reading::water_reading(std::string time, std::string consum)   //inizializza oggetti per la mia struttura dati
 {
-   consumption = stof(consum);
-   if (!time.empty())
-   {
-       std::string temp,detime;
-       int year, month, day ,hour,min,sec;
-       bool yearFound = false, hourFound = false;
-           for (size_t i = 0; i<time.size() ; ++i)
-           {
-               if ((time[i] <= '9' && time[i] >='0') || time[i] == ':')
-               {
-                   temp += time[i];
-               }
-               else if (time[i] == '-' && yearFound == false)
-               {
-                   year = stoi(temp);
-                   yearFound = true;
-                   temp.clear();
-               }
-               else if (time[i] == '-' && yearFound == true)
-               {
-                   month = stoi(temp);
-                   temp.clear();
-               }
-               else if (time[i] == ' ')
-               {
-                   day = stoi(temp);
-                   temp.clear();
-               }
-           }
-           detime = temp;
+    consumption = stof(consum);
+    if (!time.empty())
+    {
+        std::string temp,detime;
+        int year, month, day ,hour,min,sec;
+        bool yearFound = false, hourFound = false;
+        for (size_t i = 0; i<time.size() ; ++i)
+        {
+            if ((time[i] <= '9' && time[i] >='0') || time[i] == ':')
+            {
+                temp += time[i];
+            }
+            else if (time[i] == '-' && yearFound == false)
+            {
+                year = stoi(temp);
+                yearFound = true;
+                temp.clear();
+            }
+            else if (time[i] == '-' && yearFound == true)
+            {
+                month = stoi(temp);
+                temp.clear();
+            }
+            else if (time[i] == ' ')
+            {
+                day = stoi(temp);
+                temp.clear();
+            }
+        }
+        detime = temp;
 
-           temp.clear();
-           for (size_t i = 0; i<detime.size() ; i++)
-           {
-               if ((detime[i] <= '9' && detime[i] >='0') )
-               {
-                   temp += detime[i];
-               }
-               else if (detime[i] == ':' &&  hourFound == false)
-               {
-                   hour = stoi(temp);
-                   hourFound = true;
-                   temp.clear();
-               }
-               else if (detime[i] == ':' &&  hourFound == true)
-               {
-                   min = stoi(temp);
-                   temp.clear();
-               }
-           }
-           sec = stoi(temp);
-       this->data.tm_year = year;
-       this->data.tm_mon = month;
-       this->data.tm_mday = day;
-       this->data.tm_hour = hour;
-       this->data.tm_min = min;
-       this->data.tm_sec = sec;
-   }
+        temp.clear();
+        for (size_t i = 0; i<detime.size() ; i++)
+        {
+            if ((detime[i] <= '9' && detime[i] >='0') )
+            {
+                temp += detime[i];
+            }
+            else if (detime[i] == ':' &&  hourFound == false)
+            {
+                hour = stoi(temp);
+                hourFound = true;
+                temp.clear();
+            }
+            else if (detime[i] == ':' &&  hourFound == true)
+            {
+                min = stoi(temp);
+                temp.clear();
+            }
+        }
+        sec = stoi(temp);
+        this->data.tm_year = year;
+        this->data.tm_mon = month;
+        this->data.tm_mday = day;
+        this->data.tm_hour = hour;
+        this->data.tm_min = min;
+        this->data.tm_sec = sec;
+    }
 
 }
 
@@ -131,19 +131,19 @@ bool water_reading::compare(water_reading a, int depth)
     case 2:
         firstParam = this->get_data().tm_mday;
         secondParam = a.get_data().tm_mday;
-         break;
+        break;
     case 3:
         firstParam = this->get_data().tm_hour;
         secondParam = a.get_data().tm_hour;
-         break;
+        break;
     case 4:
         firstParam = this->get_data().tm_min;
         secondParam = a.get_data().tm_min;
-         break;
+        break;
     case 5:
         firstParam = this->get_data().tm_sec;
         secondParam = a.get_data().tm_sec;
-         break;
+        break;
     default:
         return false;
     }
