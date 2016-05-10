@@ -59,8 +59,8 @@ void Analisi::on_button_dati_clicked()
         if(temp.size()==0){
             //niente.
         }else{//stampa
-        for(size_t i=0;i<temp.size();i++){
-        ui->list_perdite->addItem("ID "+QString::fromStdString(Struttura_dati::index.at(i))+"  Data: "+temp[i].toString("yyyy.MM.dd"));
+        for(size_t j=0;j<temp.size();j++){
+        ui->list_perdite->addItem("ID "+QString::fromStdString(Struttura_dati::index.at(i))+"  Data: "+temp[j].toString("yyyy.MM.dd"));
         }
         }
         temp.clear();
@@ -101,10 +101,8 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
 
     }
 
-   for (size_t i = consum_user.size()  ; i>0;i--)
-   {
-       delete consum_user[i-1];
-   }
+   Struttura_dati::deinit_score_ranges(consum_user); //Deinitialize
+   consum_user.clear();
   return loss_consum;
 }
 
