@@ -8,8 +8,7 @@
 class Struttura_dati
 {
 public:
-     static std::map <std::string,std::vector<water_reading*>> Wreading;
-//temp per analisi
+    static std::map <std::string,std::vector<water_reading*>> Wreading;
     static std::map<std::string, std::vector<double>> map;
     static std::vector<double> avg_for_index;//salvo tutte le medie di tutte le utenze
 
@@ -20,7 +19,7 @@ public:
      static void sort_vect(std::map <std::string, std::vector<water_reading*> > &map, std::string user);
      static std::vector<water_reading*> score_ranges(std::vector<water_reading*> vect_user);
      static bool sort_function(water_reading* a, water_reading* b);
-     static void deinit_score_ranges (std::vector<water_reading*> &vect_toDelete);
+     static void deinit_score_ranges (std::vector<water_reading*> &vect_toDelete);  //dealloco la memoria allocata da "score_ranges"
 };
 
 #endif // STRUTTURA_DATI_H

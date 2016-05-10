@@ -84,7 +84,6 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
 
             if (consum_user[i]->get_consumption() >= threshold)
             {
-
                 lossFound = true;
                 QDate data(consum_user[i]->get_data().tm_year,consum_user[i]->get_data().tm_mon,consum_user[i]->get_data().tm_mday); //creo QDate
 
@@ -92,10 +91,9 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
 
             }
         }
-        //if ((consum_user[i]->get_data().tm_hour >= 6 && consum_user[i]->get_data().tm_hour <= 23) )
+
         if (consum_user[i]->get_data().tm_hour >= 6 && consum_user[i]->get_data().tm_hour <= 23)
         {
-           // && consum_user[i]->get_data().tm_mday != consum_user[i+1]->get_data().tm_mday
             lossFound = false;  //Se supera le ore notturne oppure cambia giorno, ripristino tutto
         }
 
@@ -159,9 +157,6 @@ void Analisi::devianze_mensili(Ui::Analisi *ui)
 
 void Analisi::devianze_settimanali(Ui::Analisi *ui)
 {
-   // this->isTerminated=false;
-    //IniziaTimer();
-
     std::map<std::string, std::vector<double>> map;
     std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
     for (std::pair<std::string,std::vector<water_reading*>> x: Struttura_dati::Wreading)
@@ -241,8 +236,7 @@ void Analisi::on_deviance_button_clicked()
 void Analisi::devianze_giornaliere(Ui::Analisi *ui)
 {
     //cancello il temporaneo nella struttura dati
-   // IniziaTimer();
-   // this->isTerminated=false;
+
 Struttura_dati::avg_for_index.clear();
 Struttura_dati::map.clear();
 worker->requestWork();

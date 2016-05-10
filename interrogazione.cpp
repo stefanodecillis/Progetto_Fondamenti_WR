@@ -72,7 +72,7 @@ void Interrogazione::on_calendarWidget_clicked(const QDate &date)
         msgBox.setText("Per Inserire un nuovo intervallo, fare Reset");//ricordo di settare il contatore
         msgBox.exec();
     }
-//qDebug()<<date;
+
 }
 
 void Interrogazione::on_Find_user_editingFinished()
@@ -109,15 +109,10 @@ void Interrogazione::on_Find_clicked()
     //se il dato input è valido e le date sono valide
     if(this->input_codice_cliente==true&&this->date1.isValid()&&this->date2.isValid()){
 
-        /*QMessageBox msgBox;
-        msgBox.setText("DATI VALIDI");//ho id e data corretta
-        msgBox.exec();*/
-
-
         QDate data1 = this->date1;
-        //qDebug()<<data1;
+
         QDate data2 = this->date2;
-        //qDebug()<<data2;
+
         QString mc = " m³";
         int diff = data1.daysTo(data2);  //conosco i giorni di distanza tra le due date
         double totalcons = total_consumption(data1,data2,ui->Find_user->text().toStdString());
@@ -172,7 +167,6 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
     std::vector<water_reading*> consum_user = Struttura_dati::score_ranges(Struttura_dati::Wreading.at(user));
     std::vector<double> values;
 
-     //qDebug()<<"grandezza vector"<<QString::number(consum_user.size());
     for (size_t i = 0; i < consum_user.size(); i++)
     {
         //Inserisco i valori compresi tra le due date
@@ -188,13 +182,10 @@ double Interrogazione::total_consumption (QDate data1, QDate data2,std::string u
         //Non ci sono letture questo utente
         return 0;
     }
-   // double avg_hourly = values[0];
-     //qDebug()<<"grandezza vector piccolo"<<QString::number(values.size());
     double total_consumption=0;
     for (size_t i = 0; i<values.size(); i++)
     {
         total_consumption += values[i];
-        //avg_hourly = avg_hourly/2;
     }
 
 
@@ -310,7 +301,6 @@ double Interrogazione::avg_monthly (QDate data1,QDate data2, std::string user)
 
     double avg_month = 0;     //variabile di apppoggio consumi
     int diff=data1.daysTo(data2)+1;
-    //diff = diff / 30; //utilizzo 30 come numero medio di giorni nei mesi
 
     for (size_t i = 0; i < consum_user.size(); i++)
     {

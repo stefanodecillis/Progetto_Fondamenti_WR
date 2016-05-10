@@ -11,7 +11,7 @@ water_reading::water_reading (float consumption,tm data):consumption(consumption
     this->data.tm_year = data.tm_year;
 }
 
-water_reading::water_reading(std::string time, std::string consum)
+water_reading::water_reading(std::string time, std::string consum)   //inizializza oggetti per la mia struttura dati
 {
    consumption = stof(consum);
    if (!time.empty())
