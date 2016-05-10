@@ -18,10 +18,13 @@ Analisi::Analisi(QWidget *parent) :
     ui->setupUi(this);
     setMaximumSize(681,468);//dimensione fissa
     setMinimumSize(681,468);
+    timer= new QTimer(this);
 
     thread = new QThread();
     worker = new Worker();
+    ui->loading_label->hide();
     worker->moveToThread(thread);
+    connect(timer,SIGNAL(timeout()),this,SLOT(onTimeOut()));
     connect(worker, SIGNAL(workRequested()), thread, SLOT(start()));
     connect(thread, SIGNAL(started()), worker, SLOT(doWork()));
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()), Qt::DirectConnection);
@@ -44,6 +47,7 @@ void Analisi::on_button_dati_clicked()
 {
    if (!(ui->take_threshold->text().isEmpty())) //Se non è vuota
    {
+
        //resetto le qlist
        ui->list_perdite->clear();
        //Lavora
@@ -61,8 +65,8 @@ void Analisi::on_button_dati_clicked()
         }
         temp.clear();
         temp.shrink_to_fit();
-
        }
+
    }//fine if principale
 }
 
@@ -101,12 +105,13 @@ std::vector<QDate> Analisi::get_threshold(std::string user, double threshold)
    {
        delete consum_user[i-1];
    }
-
   return loss_consum;
 }
 
 void Analisi::devianze_mensili(Ui::Analisi *ui)
 {
+   // this->isTerminated=false;
+   // IniziaTimer();
     std::map<std::string, std::vector<double>> map;
     std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
     for (size_t i = 0; i < Struttura_dati::index.size(); i++)
@@ -150,11 +155,15 @@ void Analisi::devianze_mensili(Ui::Analisi *ui)
         }
     }
     map.clear();
+    this->isTerminated=true;
 }
 
 
 void Analisi::devianze_settimanali(Ui::Analisi *ui)
 {
+   // this->isTerminated=false;
+    //IniziaTimer();
+
     std::map<std::string, std::vector<double>> map;
     std::vector<double> avg_for_index;    //salvo tutte le medie di tutte le utenze
     for (std::pair<std::string,std::vector<water_reading*>> x: Struttura_dati::Wreading)
@@ -199,6 +208,7 @@ void Analisi::devianze_settimanali(Ui::Analisi *ui)
     }
     map.clear();
     avg_for_index.clear();
+    this->isTerminated=true;
 }
 
 
@@ -208,14 +218,21 @@ void Analisi::on_deviance_button_clicked()
     ui->list_devianti->clear();
     if (ui->comboBox_deviance->currentText().toStdString() == "Mensile")
     {
+        IniziaTimer();
+        this->isTerminated=false;
     devianze_mensili(ui);
     }
     else if (ui->comboBox_deviance->currentText().toStdString() == "Settimanale")
     {
+        IniziaTimer();
+        this->isTerminated=false;
     devianze_settimanali(ui);
     }
-    else if (ui->comboBox_deviance->currentText().toStdString() == "Giornaliera")
-    devianze_giornaliere(ui);
+    else if (ui->comboBox_deviance->currentText().toStdString() == "Giornaliera"){
+        IniziaTimer();
+        this->isTerminated=false;
+        devianze_giornaliere(ui);
+    }
 }
 
 
@@ -226,10 +243,18 @@ void Analisi::on_deviance_button_clicked()
 void Analisi::devianze_giornaliere(Ui::Analisi *ui)
 {
     //cancello il temporaneo nella struttura dati
+   // IniziaTimer();
+   // this->isTerminated=false;
 Struttura_dati::avg_for_index.clear();
 Struttura_dati::map.clear();
+worker->requestWork();
+}
 
-    worker->requestWork();
+void Analisi::IniziaTimer()
+{
+    ui->loading_label->setVisible(true);
+    counter=0;
+    timer->start(1000);
 }
 
 
@@ -259,6 +284,24 @@ void Analisi::prova(){
             }
         }
     }
+    this->isTerminated=true;
     Struttura_dati::map.clear();
     Struttura_dati::avg_for_index.clear();
+}
+
+void Analisi::onTimeOut()
+{
+
+    if(this->isTerminated==true){
+      timer->stop();
+      ui->loading_label->setVisible(false);
+    }else{
+        if(counter%2==0){
+             ui->loading_label->setText("Loading.");
+        }else{
+       ui->loading_label->setText("Loading..");
+}
+counter++;
+    }
+
 }
