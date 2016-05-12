@@ -14,7 +14,7 @@
 #ifdef OS_WINDOWS
 #define WIN 8
 #else
-#define WIN 8   // 7 per UNIX 8 per WINDOWS
+#define WIN 7   // 7 per UNIX 8 per WINDOWS
 #endif
 
 
