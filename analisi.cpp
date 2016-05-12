@@ -27,7 +27,7 @@ Analisi::Analisi(QWidget *parent) :
     connect(worker, SIGNAL(workRequested()), thread, SLOT(start()));
     connect(thread, SIGNAL(started()), worker, SLOT(doWork()));
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()), Qt::DirectConnection);
-    connect(worker, SIGNAL(finished()), this, SLOT(prova()));
+    connect(worker, SIGNAL(finished()), this, SLOT(dev_giornaliere()));
 }
 
 Analisi::~Analisi()
@@ -249,22 +249,22 @@ void Analisi::IniziaTimer()
 }
 
 
-void Analisi::prova(){
+void Analisi::dev_giornaliere(){
 
     //ottengo la media mensile complessiva
-    double avg_weekly = 0;
+    double avg_daily = 0;
     for (size_t i = 0; i < Struttura_dati::avg_for_index.size(); i++)
     {
-        avg_weekly += Struttura_dati::avg_for_index[i];
+        avg_daily += Struttura_dati::avg_for_index[i];
     }
-    avg_weekly = avg_weekly / Struttura_dati::avg_for_index.size();
+    avg_daily = avg_daily / Struttura_dati::avg_for_index.size();
     //stampo
     for (size_t i = 0; i< Struttura_dati::index.size(); i++)
     {
         bool devianceFound = false; //Ci servirà dopo per capire quando ha trovato l'utenza deviante
         for (size_t n = 0; n < Struttura_dati::map[Struttura_dati::index[i]].size(); n++)
         {
-            if ( Struttura_dati::map.at(Struttura_dati::index[i])[n] >= (avg_weekly*2) && devianceFound == false)
+            if ( Struttura_dati::map.at(Struttura_dati::index[i])[n] >= (avg_daily*2) && devianceFound == false)
             {
                 //fai stampare a video
                 QString id = QString::fromStdString(Struttura_dati::index[i]);

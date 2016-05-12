@@ -10,8 +10,8 @@ private:
     tm data;
     float consumption;
 public:
-    water_reading(std::string time,std::string consum);
-    water_reading (float consumption,tm data);
+    water_reading(std::string time,std::string consum); //costruttori
+    water_reading (float consumption,tm data); //costruttori
     tm get_data();
     float get_consumption(){return consumption;}
     bool compare(water_reading a, int depth);

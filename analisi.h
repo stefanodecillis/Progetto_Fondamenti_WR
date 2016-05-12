@@ -22,7 +22,7 @@ public:
      void IniziaTimer();
 public slots:
     void on_exit_button_clicked();
-    void prova();
+    void dev_giornaliere();
     void onTimeOut();
 
 private slots:

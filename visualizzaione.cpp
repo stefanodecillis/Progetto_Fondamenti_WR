@@ -362,7 +362,7 @@ double visualizzaione::consum_tot(std::vector<double> user){
     return tot;
 }
 
-std::vector<double> visualizzaione::monthly(int month, std::string user)
+std::vector<double> visualizzaione::monthly(int month, std::string user)  //media giorno per giorno
 {
     Struttura_dati::sort_vect(Struttura_dati::Wreading,user);
     month++;
